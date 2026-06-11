@@ -5,12 +5,6 @@ import { Briefcase } from "lucide-react";
 
 const EXPERIENCES = [
     {
-        role: "Undergraduate Research Assistant",
-        company: "Gujarat Technological University",
-        period: "May 2021 - Jan 2022",
-        desc: "• Processed and cleaned 50K+ multilingual raw text records using Python, independently defining the cleaning strategy for an ambiguously scoped research task with loosely defined initial requirements.\n• Executed object-oriented experiments comparing three classification models, analyzed results via confusion matrices using Scikit-learn, and identified the highest-performing model for the target task.\n• Maintained structured version-controlled experiment logs using Git, enabling the research supervisor to reproduce any prior run and trace how model performance evolved across iterations."
-    },
-    {
         role: "Academic Tutor",
         company: "Arizona State University (ASU)",
         period: "Aug 2024 - Present",
@@ -27,6 +21,12 @@ const EXPERIENCES = [
         company: "Uniqual Itech",
         period: "May 2023 - Jul 2023",
         desc: "Developed 17+ reusable React components and integrated AI-powered data transformation pipelines for automated structured data extraction."
+    },
+    {
+        role: "Undergraduate Research Assistant",
+        company: "Gujarat Technological University",
+        period: "May 2021 - Jan 2022",
+        desc: "• Processed and cleaned 50K+ multilingual raw text records using Python, independently defining the cleaning strategy for an ambiguously scoped research task with loosely defined initial requirements.\n• Executed object-oriented experiments comparing three classification models, analyzed results via confusion matrices using Scikit-learn, and identified the highest-performing model for the target task.\n• Maintained structured version-controlled experiment logs using Git, enabling the research supervisor to reproduce any prior run and trace how model performance evolved across iterations."
     }
 ];
 
