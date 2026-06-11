@@ -17,7 +17,7 @@ export function TechStackSection() {
                 <div className="p-3 bg-yellow-500/10 text-yellow-500 rounded-lg mb-4">
                     <Layers size={24} />
                 </div>
-                <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neutral-50 to-neutral-500 text-center">
+                <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neutral-50 to-neutral-500 dark:from-neutral-50 dark:to-neutral-500 light:from-neutral-950 light:to-neutral-600 text-center">
                     Tech Stack
                 </h2>
                 <p className="mt-4 text-neutral-400 text-center max-w-2xl">

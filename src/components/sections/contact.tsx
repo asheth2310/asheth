@@ -60,7 +60,7 @@ export function ContactSection() {
                         ) : (
                             <form className="space-y-6" onSubmit={handleSubmit}>
                                 <div className="space-y-2">
-                                    <label className="text-sm text-neutral-400">Name</label>
+                                    <label className="text-sm text-neutral-400 dark:text-neutral-400 light:text-neutral-600">Name</label>
                                     <Input 
                                         required
                                         className="bg-neutral-950 dark:bg-neutral-950 light:bg-white border-neutral-800 dark:border-neutral-800 light:border-neutral-200 focus-visible:ring-blue-500 text-foreground" 
@@ -68,7 +68,7 @@ export function ContactSection() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-sm text-neutral-400">Email</label>
+                                    <label className="text-sm text-neutral-400 dark:text-neutral-400 light:text-neutral-600">Email</label>
                                     <Input 
                                         required
                                         type="email"
@@ -77,7 +77,7 @@ export function ContactSection() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-sm text-neutral-400">Message</label>
+                                    <label className="text-sm text-neutral-400 dark:text-neutral-400 light:text-neutral-600">Message</label>
                                     <textarea 
                                         required
                                         className="flex min-h-[120px] w-full rounded-md border border-neutral-800 dark:border-neutral-800 light:border-neutral-200 bg-neutral-950 dark:bg-neutral-950 light:bg-white px-3 py-2 text-base text-foreground ring-offset-background placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm resize-none transition-all"
@@ -104,10 +104,10 @@ export function ContactSection() {
                     </AnimatePresence>
 
                     <div className="mt-8 flex justify-center gap-6 pt-8 border-t border-neutral-800 dark:border-neutral-800 light:border-neutral-200">
-                         <a href="https://github.com/asheth2310" target="_blank" rel="noopener noreferrer" className="p-3 bg-neutral-950 dark:bg-neutral-950 light:bg-white border border-neutral-800 dark:border-neutral-800 light:border-neutral-200 rounded-full text-neutral-400 hover:text-blue-400 hover:border-blue-500 transition-all shadow-md">
+                         <a href="https://github.com/asheth2310" target="_blank" rel="noopener noreferrer" className="p-3 bg-neutral-950 dark:bg-neutral-950 light:bg-white border border-neutral-800 dark:border-neutral-800 light:border-neutral-200 rounded-full text-neutral-400 dark:text-neutral-400 light:text-neutral-600 hover:text-blue-400 hover:border-blue-500 transition-all shadow-md">
                             <Github size={20} />
                          </a>
-                         <a href="#" className="p-3 bg-neutral-950 dark:bg-neutral-950 light:bg-white border border-neutral-800 dark:border-neutral-800 light:border-neutral-200 rounded-full text-neutral-400 hover:text-blue-400 hover:border-blue-500 transition-all shadow-md">
+                         <a href="#" className="p-3 bg-neutral-950 dark:bg-neutral-950 light:bg-white border border-neutral-800 dark:border-neutral-800 light:border-neutral-200 rounded-full text-neutral-400 dark:text-neutral-400 light:text-neutral-600 hover:text-blue-400 hover:border-blue-500 transition-all shadow-md">
                             <Linkedin size={20} />
                          </a>
                     </div>
