@@ -2,8 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
-import { User, Briefcase, Code2, Layers, Mail, Sun, Moon } from "lucide-react";
+import { User, Briefcase, Code2, Layers, Mail } from "lucide-react";
 
 const NAV_ITEMS = [
     { label: "About", icon: User, href: "#about" },
@@ -15,7 +14,6 @@ const NAV_ITEMS = [
 
 export function NavigationDock() {
     const [activeSection, setActiveSection] = useState("");
-    const { theme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
 
     // Prevent hydration mismatch
@@ -72,15 +70,6 @@ export function NavigationDock() {
                     )
                 })}
                 
-                <div className="w-[1px] h-6 bg-neutral-800 mx-1" />
-
-                <button
-                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                    className="p-2.5 rounded-full text-neutral-400 hover:text-blue-400 hover:bg-neutral-800/30 transition-all duration-300"
-                    aria-label="Toggle Theme"
-                >
-                    {mounted && (theme === "dark" ? <Sun size={18} /> : <Moon size={18} />)}
-                </button>
             </div>
         </motion.div>
     );
