@@ -39,12 +39,10 @@ export function AiChatWidget() {
         setMounted(true);
     }, []);
 
-    const { messages, sendMessage, status, error, setMessages } = useChat({
+    const { messages, append, isLoading, error, setMessages } = useChat({
         api: '/api/chat',
         initialMessages: INITIAL_MESSAGES
     });
-
-    const isLoading = status === 'submitted' || status === 'streaming';
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInput(e.target.value);
@@ -57,22 +55,16 @@ export function AiChatWidget() {
     const handleChatSubmission = async (text: string) => {
         if (!text.trim() || isLoading) return;
         
-        // 1. Add user message
-        const userMsg = { id: Date.now().toString(), role: 'user' as const, content: text };
-        setMessages(prev => [...prev, userMsg]);
-
-        // 2. Local fallback is now the primary fast responder
-        setTimeout(() => {
+        try {
+            await append({ role: 'user', content: text });
+        } catch (e) {
             const fallbackMsg = { 
                 id: (Date.now() + 1).toString(), 
                 role: 'assistant' as const, 
                 content: getFallbackAnswer(text) 
             };
             setMessages(prev => [...prev, fallbackMsg]);
-        }, 400);
-
-        // 3. (Optional) Try keep the API call in background just in case
-        try { sendMessage({ content: text }).catch(() => {}); } catch(e) {}
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {

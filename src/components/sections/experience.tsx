@@ -5,6 +5,12 @@ import { Briefcase } from "lucide-react";
 
 const EXPERIENCES = [
     {
+        role: "Undergraduate Research Assistant",
+        company: "Gujarat Technological University",
+        period: "May 2021 - Jan 2022",
+        desc: "• Processed and cleaned 50K+ multilingual raw text records using Python, independently defining the cleaning strategy for an ambiguously scoped research task with loosely defined initial requirements.\n• Executed object-oriented experiments comparing three classification models, analyzed results via confusion matrices using Scikit-learn, and identified the highest-performing model for the target task.\n• Maintained structured version-controlled experiment logs using Git, enabling the research supervisor to reproduce any prior run and trace how model performance evolved across iterations."
+    },
+    {
         role: "Academic Tutor",
         company: "Arizona State University (ASU)",
         period: "Aug 2024 - Present",
@@ -52,7 +58,7 @@ export function ExperienceSection() {
                             <span className="text-sm font-mono text-blue-500 mb-2 block">{exp.period}</span>
                             <h3 className="text-xl font-bold text-foreground">{exp.role}</h3>
                             <h4 className="text-blue-400 dark:text-blue-400 light:text-blue-600 font-medium mb-4">{exp.company}</h4>
-                            <p className="text-muted-foreground">{exp.desc}</p>
+                            <p className="text-muted-foreground whitespace-pre-line">{exp.desc}</p>
                         </div>
                     </motion.div>
                 ))}
