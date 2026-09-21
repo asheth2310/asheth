@@ -66,10 +66,6 @@ export function ContactSection() {
               <h3 className="text-3xl font-bold tracking-tight text-ink-hi md:text-4xl">
                 Have a hard AI problem?
               </h3>
-              <p className="mt-4 text-sm leading-relaxed text-ink-mid">
-                I&apos;m open to AI Engineering, Agentic AI and LLM Systems
-                opportunities.
-              </p>
             </div>
 
             {/* Right: link rows */}
