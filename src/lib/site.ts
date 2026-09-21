@@ -12,7 +12,7 @@ export const SITE = {
   /** Shown on the contact section + used as the reply-to fallback. */
   email: "you@example.com", // TODO: your real email address
   /** Full LinkedIn profile URL. */
-  linkedin: "https://www.linkedin.com/in/your-handle", // TODO: your real LinkedIn URL
+  linkedin: "https://www.linkedin.com/in/aagam2301/",
   github: "https://github.com/asheth2310",
   githubUser: "asheth2310",
   /** Short handle shown in the navbar brand. */
