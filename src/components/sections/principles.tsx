@@ -12,7 +12,7 @@ export function PrinciplesSection() {
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeading
-          index="04"
+          index="05"
           label="PRINCIPLES"
           title="How I build."
           sub="Six rules earned from shipping agent platforms, data pipelines, and distributed systems — not borrowed from a poster."

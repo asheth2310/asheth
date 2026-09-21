@@ -19,8 +19,8 @@ export default function Home() {
         <SystemsSection />
         <PlaygroundSection />
         <ExperienceSection />
-        <PrinciplesSection />
         <StackMatrixSection />
+        <PrinciplesSection />
         <ContactSection />
       </main>
       <Footer />

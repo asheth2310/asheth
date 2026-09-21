@@ -87,7 +87,7 @@ export function StackMatrixSection() {
     <section id="stack" className="scroll-mt-20 py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeading
-          index="05"
+          index="04"
           label="STACK"
           title="Production tooling."
           sub="The tools I reach for to take AI systems from notebook to production — grouped by where they do their work."
