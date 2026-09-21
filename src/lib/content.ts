@@ -327,7 +327,8 @@ export const PRINCIPLES: { index: string; title: string; body: string }[] = [
 ];
 
 export const PROOF_STATS: { value: string; label: string }[] = [
-  { value: "41", label: "public repositories" },
+  { value: "40+", label: "public repositories" },
+  { value: "2000+", label: "contributions" },
   { value: "09", label: "systems featured" },
   { value: "24", label: "technologies in rotation" },
   { value: "05", label: "engineering roles" },

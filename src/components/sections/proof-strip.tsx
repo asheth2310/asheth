@@ -5,8 +5,10 @@ import { motion, useInView } from "framer-motion";
 import { PROOF_STATS } from "@/lib/content";
 
 function Stat({ value, label, start }: { value: string; label: string; start: boolean }) {
-  const numeric = /^\d+$/.test(value);
-  const target = numeric ? parseInt(value, 10) : 0;
+  const plus = value.endsWith("+");
+  const bare = plus ? value.slice(0, -1) : value;
+  const numeric = /^\d+$/.test(bare);
+  const target = numeric ? parseInt(bare, 10) : 0;
   const [display, setDisplay] = useState(numeric ? 0 : value);
 
   useEffect(() => {
@@ -27,6 +29,7 @@ function Stat({ value, label, start }: { value: string; label: string; start: bo
     <div className="flex flex-col items-center gap-1 px-6 py-6 text-center sm:py-8">
       <span className="font-mono text-3xl font-bold text-zinc-50 md:text-4xl">
         {numeric ? String(display).padStart(2, "0") : display}
+        {numeric && plus ? "+" : ""}
       </span>
       <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-zinc-500">
         {label}
@@ -46,10 +49,15 @@ export function ProofStrip() {
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
         transition={{ duration: 0.6 }}
-        className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-white/10 px-4 sm:px-6 md:grid-cols-4"
+        className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-white/10 px-4 sm:px-6 md:grid-cols-3 lg:grid-cols-5"
       >
         {PROOF_STATS.map((s) => (
-          <Stat key={s.label} value={s.value} label={s.label} start={inView} />
+          <Stat
+            key={s.label}
+            value={s.value}
+            label={s.label}
+            start={inView}
+          />
         ))}
       </motion.div>
     </section>
