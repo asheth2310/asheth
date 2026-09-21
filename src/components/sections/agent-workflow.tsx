@@ -1038,14 +1038,14 @@ export function AgentWorkflow() {
   const activeStep = activeIdx >= 0 ? scenario.steps[activeIdx] : null;
 
   return (
-    <div className="mt-24 border-t border-white/10 pt-16">
+    <div className="mt-20 border-t border-white/10 pt-14">
       {/* Header */}
-      <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="mb-3 font-mono text-xs tracking-[0.25em] text-cyan-400/90">
             ● PUBLIC REFERENCE IMPLEMENTATION
           </p>
-          <h3 className="text-3xl font-bold tracking-tight text-zinc-50 md:text-4xl">
+          <h3 className="text-2xl font-bold tracking-tight text-zinc-50 md:text-3xl">
             Agent workflow playground
           </h3>
         </div>
@@ -1085,25 +1085,25 @@ export function AgentWorkflow() {
                 }}
                 disabled={running}
                 aria-pressed={active}
-                className={`flex items-start gap-3 rounded-lg border p-3 text-left transition-colors disabled:opacity-60 ${
+                className={`flex items-start gap-2.5 rounded-lg border p-2.5 text-left transition-colors disabled:opacity-60 ${
                   active
                     ? "border-cyan-400/70 bg-cyan-950/30"
                     : "border-white/10 bg-black/30 hover:border-white/25"
                 }`}
               >
                 <Icon
-                  size={16}
+                  size={14}
                   className={`mt-0.5 shrink-0 ${active ? "text-cyan-300" : "text-zinc-500"}`}
                 />
                 <span>
                   <span
-                    className={`block font-mono text-sm font-semibold ${
+                    className={`block font-mono text-xs font-semibold ${
                       active ? "text-cyan-200" : "text-zinc-200"
                     }`}
                   >
                     {a.name}
                   </span>
-                  <span className="mt-0.5 block font-mono text-[11px] text-zinc-500">
+                  <span className="mt-0.5 block font-mono text-[10px] text-zinc-500">
                     {a.role}
                   </span>
                 </span>
@@ -1112,7 +1112,7 @@ export function AgentWorkflow() {
           })}
         </div>
 
-        <p className="mt-3 rounded-lg border border-white/10 bg-black/30 px-4 py-2.5 font-mono text-xs text-zinc-400">
+        <p className="mt-2.5 rounded-lg border border-white/10 bg-black/30 px-4 py-2 font-mono text-xs text-zinc-400">
           {agent.blurb}
         </p>
       </div>
@@ -1135,27 +1135,27 @@ export function AgentWorkflow() {
                 }}
                 disabled={running}
                 aria-pressed={active}
-                className={`rounded-lg border p-3 text-left transition-colors disabled:opacity-60 ${
+                className={`rounded-lg border p-2.5 text-left transition-colors disabled:opacity-60 ${
                   active
                     ? "border-cyan-400/70 bg-cyan-950/30"
                     : "border-white/10 bg-black/30 hover:border-white/25"
                 }`}
               >
                 <span
-                  className={`block font-mono text-[10px] tracking-widest ${
+                  className={`block font-mono text-[9px] tracking-widest ${
                     active ? "text-cyan-300" : "text-zinc-600"
                   }`}
                 >
                   SCENARIO {s.index}
                 </span>
                 <span
-                  className={`mt-1 block font-mono text-sm font-semibold ${
+                  className={`mt-0.5 block font-mono text-xs font-semibold ${
                     active ? "text-cyan-200" : "text-zinc-100"
                   }`}
                 >
                   {s.title}
                 </span>
-                <span className="mt-0.5 block font-mono text-[11px] text-zinc-500">
+                <span className="block font-mono text-[10px] text-zinc-500">
                   {s.subtitle}
                 </span>
               </button>
@@ -1164,7 +1164,7 @@ export function AgentWorkflow() {
         </div>
 
         <div className="mt-3 grid gap-2 lg:grid-cols-2">
-          <div className="flex items-center gap-3 rounded-lg border border-white/10 bg-black/30 px-4 py-3">
+          <div className="flex items-center gap-3 rounded-lg border border-white/10 bg-black/30 px-4 py-2.5">
             <span className="shrink-0 font-mono text-[10px] tracking-widest text-cyan-300">
               USE CASE
             </span>
@@ -1172,7 +1172,7 @@ export function AgentWorkflow() {
               {scenario.useCase}
             </span>
           </div>
-          <div className="flex items-start gap-3 rounded-lg border border-white/10 bg-black/30 px-4 py-3">
+          <div className="flex items-start gap-3 rounded-lg border border-white/10 bg-black/30 px-4 py-2.5">
             <ShieldCheck size={14} className="mt-0.5 shrink-0 text-cyan-400" />
             <span className="shrink-0 font-mono text-[10px] tracking-widest text-cyan-300">
               CONTROL
@@ -1208,7 +1208,7 @@ export function AgentWorkflow() {
 
           <div
             ref={chatRef}
-            className="h-[420px] space-y-4 overflow-y-auto p-5"
+            className="h-[340px] space-y-3 overflow-y-auto p-4"
           >
             {turns.length === 0 && !running && (
               <p className="pt-16 text-center font-mono text-xs text-zinc-600">
@@ -1282,7 +1282,7 @@ export function AgentWorkflow() {
 
           <div
             ref={traceRef}
-            className="h-[420px] overflow-y-auto px-3 py-3"
+            className="h-[340px] overflow-y-auto px-3 py-2.5"
             role="list"
             aria-label="Agent trace"
           >
@@ -1296,7 +1296,7 @@ export function AgentWorkflow() {
                 <div
                   key={`${step.label}-${i}`}
                   role="listitem"
-                  className={`mb-1 px-2 py-2.5 ${
+                  className={`mb-0.5 px-2 py-2 ${
                     isRun
                       ? "rounded-md border border-dashed border-cyan-400/40 bg-cyan-950/25"
                       : ""
@@ -1392,7 +1392,7 @@ export function AgentWorkflow() {
           <button
             onClick={run}
             disabled={running}
-            className="flex min-h-[56px] flex-1 items-center justify-center gap-2 rounded-lg bg-cyan-400 px-6 text-center font-mono text-sm font-semibold text-zinc-950 transition-colors hover:bg-cyan-300 disabled:opacity-80"
+            className="flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-lg bg-cyan-400 px-6 text-center font-mono text-sm font-semibold text-zinc-950 transition-colors hover:bg-cyan-300 disabled:opacity-80"
           >
             <Play size={15} className="shrink-0" />
             <span>
@@ -1407,7 +1407,7 @@ export function AgentWorkflow() {
             href={SITE.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex min-h-[56px] items-center justify-center gap-2 rounded-lg border border-white/15 bg-black/40 px-5 font-mono text-sm text-zinc-200 transition-colors hover:border-cyan-400/40 hover:text-cyan-300"
+            className="flex min-h-[48px] items-center justify-center gap-2 rounded-lg border border-white/15 bg-black/40 px-5 font-mono text-sm text-zinc-200 transition-colors hover:border-cyan-400/40 hover:text-cyan-300"
           >
             Inspect source
             <ExternalLink size={14} className="shrink-0 text-zinc-500" />

@@ -109,7 +109,7 @@ export function AgentConsole() {
 
       <div
         ref={scrollRef}
-        className="h-[380px] space-y-4 overflow-y-auto p-5 font-mono text-[13px] leading-relaxed"
+        className="h-[300px] space-y-3 overflow-y-auto p-4 font-mono text-xs leading-relaxed"
       >
         {messages.map((m) => (
           <div key={m.id} className="whitespace-pre-wrap break-words">
@@ -141,7 +141,7 @@ export function AgentConsole() {
               key={p}
               onClick={() => submit(p)}
               disabled={isLoading}
-              className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 font-mono text-xs text-emerald-300 transition-colors hover:bg-emerald-500/20 disabled:opacity-50"
+              className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 font-mono text-[11px] text-emerald-300 transition-colors hover:bg-emerald-500/20 disabled:opacity-50"
             >
               {p}
             </button>
@@ -154,7 +154,7 @@ export function AgentConsole() {
           e.preventDefault();
           submit(input);
         }}
-        className="flex items-center gap-2 border-t border-white/10 bg-white/[0.02] px-4 py-3"
+        className="flex items-center gap-2 border-t border-white/10 bg-white/[0.02] px-4 py-2.5"
       >
         <span className="font-mono text-sm text-emerald-400">$</span>
         <input
