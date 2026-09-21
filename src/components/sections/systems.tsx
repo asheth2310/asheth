@@ -33,7 +33,7 @@ export function SystemsSection() {
           </div>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid auto-rows-fr items-stretch gap-3 md:grid-cols-2 md:gap-4 xl:grid-cols-3">
           {SYSTEMS.map((sys, i) => {
             const production = sys.badge === "PRODUCTION";
             const statColor = STAT_COLORS[i % STAT_COLORS.length];
@@ -58,10 +58,10 @@ export function SystemsSection() {
                 tabIndex={0}
                 aria-haspopup="dialog"
                 aria-label={`${sys.title} — open case study`}
-                className="group flex cursor-pointer flex-col rounded-xl border border-white/10 bg-white/[0.02] p-5 transition-colors hover:border-cyan-500/30 hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400/60 md:p-6"
+                className="group flex h-full cursor-pointer flex-col rounded-lg border border-white/10 bg-white/[0.02] p-4 transition-colors hover:border-cyan-500/30 hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400/60 md:p-5"
               >
                 {/* Top row: index / category · badge · code icon */}
-                <div className="mb-5 flex items-center justify-between gap-2">
+                <div className="mb-4 flex items-center justify-between gap-2">
                   <span className="truncate font-mono text-[10px] font-semibold tracking-[0.18em] text-zinc-400">
                     <span className="text-zinc-600">{sys.index} / </span>
                     {sys.category}
@@ -90,15 +90,15 @@ export function SystemsSection() {
                 </div>
 
                 {/* Title + description */}
-                <h3 className="text-lg font-bold leading-snug tracking-tight text-zinc-50 md:text-xl">
+                <h3 className="text-base font-bold leading-snug tracking-tight text-zinc-50 md:text-lg">
                   {sys.title}
                 </h3>
-                <p className="mt-2 text-[13px] leading-relaxed text-zinc-500">
+                <p className="mt-1.5 text-xs leading-relaxed text-zinc-500">
                   {sys.tagline}. {firstSentence}.
                 </p>
 
                 {/* Tags */}
-                <div className="mt-4 flex flex-wrap gap-1.5">
+                <div className="mt-3 flex flex-wrap gap-1.5">
                   {sys.tags.slice(0, 5).map((t) => (
                     <span
                       key={t}
@@ -110,16 +110,16 @@ export function SystemsSection() {
                 </div>
 
                 {/* Bottom row: big stat + open case study */}
-                <div className="mt-auto pt-6">
-                  <div className="flex items-end justify-between gap-3 border-t border-white/10 pt-4">
+                <div className="mt-auto pt-4">
+                  <div className="flex items-end justify-between gap-3 border-t border-white/10 pt-3">
                     {sys.stat ? (
-                      <p className="leading-none">
+                      <p className="flex items-baseline gap-2 leading-none">
                         <span
-                          className={`font-mono text-2xl font-bold tracking-tight md:text-3xl ${statColor}`}
+                          className={`font-mono text-xl font-bold tracking-tight md:text-2xl ${statColor}`}
                         >
                           {sys.stat.value}
                         </span>
-                        <span className="ml-2 font-mono text-[10px] leading-tight text-zinc-500">
+                        <span className="font-mono text-[10px] leading-tight text-zinc-500">
                           {sys.stat.label}
                         </span>
                       </p>
