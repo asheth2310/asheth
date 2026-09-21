@@ -1388,13 +1388,13 @@ export function AgentWorkflow() {
 
       {/* Footer: run controls + config chips */}
       <div className="mt-3 flex flex-col gap-2 lg:flex-row lg:items-stretch">
-        <div className="flex flex-1 flex-col gap-2 sm:flex-row">
+        <div className="flex flex-1 items-stretch gap-2">
           <button
             onClick={run}
             disabled={running}
-            className="flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-lg bg-cyan-400 px-6 text-center font-mono text-sm font-semibold text-zinc-950 transition-colors hover:bg-cyan-300 disabled:opacity-80"
+            className="flex h-11 items-center justify-center gap-2 rounded-lg bg-cyan-400 px-6 text-center font-mono text-sm font-semibold text-zinc-950 transition-colors hover:bg-cyan-300 disabled:opacity-80"
           >
-            <Play size={15} className="shrink-0" />
+            <Play size={14} className="shrink-0" />
             <span>
               {running
                 ? "Agent is responding…"
@@ -1407,17 +1407,17 @@ export function AgentWorkflow() {
             href={SITE.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex min-h-[48px] items-center justify-center gap-2 rounded-lg border border-white/15 bg-black/40 px-5 font-mono text-sm text-zinc-200 transition-colors hover:border-cyan-400/40 hover:text-cyan-300"
+            className="flex h-11 items-center gap-2 rounded-lg border border-white/15 bg-black/40 px-4 font-mono text-sm text-zinc-200 transition-colors hover:border-cyan-400/40 hover:text-cyan-300"
           >
             Inspect source
-            <ExternalLink size={14} className="shrink-0 text-zinc-500" />
+            <ExternalLink size={13} className="shrink-0 text-zinc-500" />
           </a>
         </div>
-        <div className="grid flex-1 grid-cols-2 gap-2">
+        <div className="grid flex-[2] grid-cols-2 gap-2 sm:flex-1">
           {CONFIG_CHIPS.map(({ key, value }) => (
             <div
               key={key}
-              className="flex items-center justify-between rounded-lg border border-white/10 bg-black/30 px-3 py-2"
+              className="flex h-11 items-center justify-between rounded-lg border border-white/10 bg-black/30 px-3 py-2"
             >
               <span className="font-mono text-[10px] tracking-widest text-zinc-500">
                 {key}
