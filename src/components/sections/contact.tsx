@@ -73,7 +73,7 @@ export function ContactSection() {
             </div>
 
             {/* Right: link rows */}
-            <div className="flex flex-col justify-center gap-3">
+            <div className="flex flex-col gap-3">
               {links.map((link) => (
                 <a
                   key={link.label}
@@ -81,14 +81,14 @@ export function ContactSection() {
                   {...(link.external
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
-                  className="group flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3 transition-colors hover:border-emerald-500/40 hover:bg-white/[0.04]"
+                  className="group flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.02] px-4 py-4 transition-colors hover:border-emerald-500/40 hover:bg-white/[0.04]"
                 >
                   {link.icon}
-                  <span className="font-mono text-sm text-zinc-200 transition-colors group-hover:text-emerald-300">
+                  <span className="font-mono text-base text-zinc-200 transition-colors group-hover:text-emerald-300">
                     {link.label}
                   </span>
                   <ChevronRight
-                    size={15}
+                    size={16}
                     className="ml-auto shrink-0 text-zinc-600 transition-all group-hover:translate-x-0.5 group-hover:text-emerald-300"
                   />
                 </a>
