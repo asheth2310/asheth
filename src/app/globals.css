@@ -164,3 +164,62 @@ html {
 *::-webkit-scrollbar-thumb:hover {
   background: rgba(16, 185, 129, 0.35);
 }
+
+/* ---- Theme-aware terminal palette ----
+ * Semantic surface/line/ink tokens so every hardcoded zinc/white utility
+ * can be swapped for theme-following classes. Dark is the terminal look;
+ * light is a paper-terminal rendering of the same layout.
+ */
+
+:root,
+.dark {
+  --surface-page: #060809;
+  --surface-card: rgba(255, 255, 255, 0.02);
+  --surface-raised: rgba(255, 255, 255, 0.03);
+  --surface-well: rgba(0, 0, 0, 0.4);
+  --surface-deep: rgba(0, 0, 0, 0.6);
+  --line: rgba(255, 255, 255, 0.1);
+  --line-soft: rgba(255, 255, 255, 0.05);
+  --ink-hi: #f4f4f5;   /* zinc-100 */
+  --ink: #d4d4d8;      /* zinc-300 */
+  --ink-mid: #a1a1aa;  /* zinc-400 */
+  --ink-soft: #71717a; /* zinc-500 */
+  --ink-faint: #52525b; /* zinc-600 */
+  --glow-dot: #22d3ee;
+}
+
+.light {
+  --surface-page: #f6f7f8;
+  --surface-card: rgba(0, 0, 0, 0.02);
+  --surface-raised: rgba(0, 0, 0, 0.03);
+  --surface-well: rgba(0, 0, 0, 0.04);
+  --surface-deep: rgba(255, 255, 255, 0.75);
+  --line: rgba(0, 0, 0, 0.12);
+  --line-soft: rgba(0, 0, 0, 0.06);
+  --ink-hi: #18181b;
+  --ink: #27272a;
+  --ink-mid: #3f3f46;
+  --ink-soft: #52525b;
+  --ink-faint: #71717a;
+  --glow-dot: #0891b2;
+}
+
+@theme inline {
+  --color-surface-page: var(--surface-page);
+  --color-surface-card: var(--surface-card);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-well: var(--surface-well);
+  --color-surface-deep: var(--surface-deep);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-ink-hi: var(--ink-hi);
+  --color-ink: var(--ink);
+  --color-ink-mid: var(--ink-mid);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-glow-dot: var(--glow-dot);
+}
+
+.light ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.18);
+}

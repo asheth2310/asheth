@@ -11,7 +11,10 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#060809",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#060809" },
+    { media: "(prefers-color-scheme: light)", color: "#f6f7f8" },
+  ],
 };
 
 export const metadata: Metadata = {
@@ -92,7 +95,6 @@ export default function RootLayout({
           attribute="class"
           defaultTheme="dark"
           enableSystem={false}
-          disableTransitionOnChange
         >
           {children}
         </ThemeProvider>

@@ -8,7 +8,7 @@ import type { ProjectDetail } from "@/lib/project-details";
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-3 font-mono text-[10px] tracking-[0.25em] text-zinc-500">
+    <p className="mb-3 font-mono text-[10px] tracking-[0.25em] text-ink-hi0">
       {children}
     </p>
   );
@@ -16,7 +16,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 function Marker({ children }: { children: React.ReactNode }) {
   return (
-    <li className="flex gap-2.5 text-[13px] leading-relaxed text-zinc-400">
+    <li className="flex gap-2.5 text-[13px] leading-relaxed text-ink-mid">
       <span className="mt-0.5 shrink-0 font-mono text-cyan-500">▪</span>
       <span>{children}</span>
     </li>
@@ -25,7 +25,7 @@ function Marker({ children }: { children: React.ReactNode }) {
 
 function CheckItem({ children }: { children: React.ReactNode }) {
   return (
-    <li className="flex gap-2.5 text-[13px] leading-relaxed text-zinc-400">
+    <li className="flex gap-2.5 text-[13px] leading-relaxed text-ink-mid">
       <Check size={13} className="mt-1 shrink-0 text-cyan-400" />
       <span>{children}</span>
     </li>
@@ -79,18 +79,18 @@ export function ProjectModal({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 24, scale: 0.98 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
-          className="my-8 w-full max-w-2xl overflow-hidden rounded-xl border border-white/15 bg-[#0a0d10] shadow-2xl"
+          className="my-8 w-full max-w-2xl overflow-hidden rounded-xl border border-line bg-[#0a0d10] shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Chrome bar */}
-          <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.03] px-4 py-2.5">
-            <span className="truncate font-mono text-[11px] text-zinc-500">
-              <span className="text-zinc-600">~</span> {detail.path}
+          <div className="flex items-center justify-between border-b border-line bg-surface-raised px-4 py-2.5">
+            <span className="truncate font-mono text-[11px] text-ink-hi0">
+              <span className="text-ink-faint">~</span> {detail.path}
             </span>
             <button
               onClick={onClose}
               aria-label="Close details"
-              className="ml-3 shrink-0 rounded p-1 text-zinc-500 transition-colors hover:bg-white/5 hover:text-zinc-200"
+              className="ml-3 shrink-0 rounded p-1 text-ink-hi0 transition-colors hover:bg-white/5 hover:text-ink"
             >
               <X size={16} />
             </button>
@@ -102,45 +102,45 @@ export function ProjectModal({
               <span className="rounded border border-cyan-400/40 bg-cyan-950/40 px-2 py-0.5 font-mono text-[10px] font-semibold tracking-[0.2em] text-cyan-300">
                 {detail.kind}
               </span>
-              <span className="font-mono text-[10px] tracking-[0.2em] text-zinc-600">
+              <span className="font-mono text-[10px] tracking-[0.2em] text-ink-faint">
                 {"// DETAIL VIEW"}
               </span>
             </div>
-            <h3 className="text-2xl font-bold tracking-tight text-zinc-50 sm:text-3xl">
+            <h3 className="text-2xl font-bold tracking-tight text-ink-hi sm:text-3xl">
               {title}
             </h3>
 
             {/* PERIOD / ROLE boxes */}
             <div className="mt-5 grid gap-2 sm:grid-cols-2">
-              <div className="rounded-lg border border-white/10 bg-black/40 px-4 py-3">
-                <p className="font-mono text-[9px] tracking-[0.25em] text-zinc-600">
+              <div className="rounded-lg border border-line bg-surface-well px-4 py-3">
+                <p className="font-mono text-[9px] tracking-[0.25em] text-ink-faint">
                   PERIOD
                 </p>
-                <p className="mt-1 font-mono text-xs text-zinc-200">
+                <p className="mt-1 font-mono text-xs text-ink">
                   {detail.period}
                 </p>
               </div>
-              <div className="rounded-lg border border-white/10 bg-black/40 px-4 py-3">
-                <p className="font-mono text-[9px] tracking-[0.25em] text-zinc-600">
+              <div className="rounded-lg border border-line bg-surface-well px-4 py-3">
+                <p className="font-mono text-[9px] tracking-[0.25em] text-ink-faint">
                   MY ROLE
                 </p>
-                <p className="mt-1 font-mono text-xs text-zinc-200">
+                <p className="mt-1 font-mono text-xs text-ink">
                   {detail.role}
                 </p>
               </div>
             </div>
 
-            <p className="mt-4 text-sm leading-relaxed text-zinc-400">
+            <p className="mt-4 text-sm leading-relaxed text-ink-mid">
               {detail.summary}
             </p>
 
             {/* Stat band */}
             {detail.stat && (
-              <div className="mt-4 rounded-lg border border-white/10 bg-black/40 px-4 py-3">
+              <div className="mt-4 rounded-lg border border-line bg-surface-well px-4 py-3">
                 <span className="font-mono text-2xl font-bold text-cyan-300">
                   {detail.stat.value}
                 </span>
-                <span className="ml-3 font-mono text-[11px] text-zinc-500">
+                <span className="ml-3 font-mono text-[11px] text-ink-hi0">
                   {detail.stat.label}
                 </span>
               </div>
@@ -149,7 +149,7 @@ export function ProjectModal({
             {/* THE PROJECT */}
             <div className="mt-8">
               <SectionLabel>THE PROJECT</SectionLabel>
-              <p className="text-sm leading-relaxed text-zinc-400">
+              <p className="text-sm leading-relaxed text-ink-mid">
                 {detail.project}
               </p>
             </div>
@@ -161,11 +161,11 @@ export function ProjectModal({
                 {detail.architecture.map((a, i) => (
                   <span key={a} className="flex items-center gap-1.5">
                     {i > 0 && (
-                      <span className="font-mono text-[10px] text-zinc-600">
+                      <span className="font-mono text-[10px] text-ink-faint">
                         &middot;
                       </span>
                     )}
-                    <span className="rounded border border-white/10 bg-black/40 px-2 py-1 font-mono text-[10px] font-semibold tracking-wide text-zinc-300">
+                    <span className="rounded border border-line bg-surface-well px-2 py-1 font-mono text-[10px] font-semibold tracking-wide text-ink">
                       {a}
                     </span>
                   </span>
@@ -181,7 +181,7 @@ export function ProjectModal({
                   {detail.keyDecisions.map((d) => (
                     <li
                       key={d}
-                      className="flex gap-2.5 rounded-lg border border-white/10 bg-black/40 p-3 text-[12px] leading-relaxed text-zinc-400"
+                      className="flex gap-2.5 rounded-lg border border-line bg-surface-well p-3 text-[12px] leading-relaxed text-ink-mid"
                     >
                       <span className="mt-0.5 shrink-0 font-mono text-cyan-500">
                         ▪
@@ -223,7 +223,7 @@ export function ProjectModal({
                   {detail.outcomes.map((o) => (
                     <div
                       key={o}
-                      className="flex gap-2.5 rounded-lg border border-emerald-500/20 bg-emerald-950/20 p-3 text-[12px] leading-relaxed text-zinc-400"
+                      className="flex gap-2.5 rounded-lg border border-emerald-500/20 bg-emerald-950/20 p-3 text-[12px] leading-relaxed text-ink-mid"
                     >
                       <Check size={13} className="mt-0.5 shrink-0 text-emerald-400" />
                       <span>{o}</span>
@@ -234,13 +234,13 @@ export function ProjectModal({
             )}
 
             {/* TECH STACK */}
-            <div className="mt-8 border-t border-white/10 pt-5">
+            <div className="mt-8 border-t border-line pt-5">
               <SectionLabel>TECH STACK</SectionLabel>
               <div className="flex flex-wrap gap-1.5">
                 {detail.stack.map((t) => (
                   <span
                     key={t}
-                    className="rounded border border-white/10 bg-black/40 px-2 py-0.5 font-mono text-[10px] text-zinc-500"
+                    className="rounded border border-line bg-surface-well px-2 py-0.5 font-mono text-[10px] text-ink-hi0"
                   >
                     {t}
                   </span>
@@ -249,7 +249,7 @@ export function ProjectModal({
             </div>
 
             {/* Footer actions */}
-            <div className="mt-8 flex flex-wrap items-center gap-3 border-t border-white/10 pt-5">
+            <div className="mt-8 flex flex-wrap items-center gap-3 border-t border-line pt-5">
               <a
                 href={`${SITE.github}/${titleHref(detail.path)}`}
                 target="_blank"
@@ -261,7 +261,7 @@ export function ProjectModal({
               </a>
               <button
                 onClick={onClose}
-                className="rounded-lg border border-white/15 px-4 py-2.5 font-mono text-xs text-zinc-300 transition-colors hover:border-white/30 hover:text-zinc-100"
+                className="rounded-lg border border-line px-4 py-2.5 font-mono text-xs text-ink transition-colors hover:border-white/30 hover:text-ink-hi"
               >
                 Close
               </button>

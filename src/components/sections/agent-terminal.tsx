@@ -26,7 +26,7 @@ function LineView({ line }: { line: Line }) {
     return (
       <div className="whitespace-pre-wrap break-all">
         <span className="text-emerald-400">$ </span>
-        <span className="text-zinc-100">{line.text}</span>
+        <span className="text-ink-hi">{line.text}</span>
       </div>
     );
   }
@@ -34,12 +34,12 @@ function LineView({ line }: { line: Line }) {
     return (
       <div className="whitespace-pre-wrap break-all">
         <span className="text-emerald-400">[ok] </span>
-        <span className="text-zinc-400">{line.text}</span>
+        <span className="text-ink-mid">{line.text}</span>
       </div>
     );
   }
   return (
-    <div className="whitespace-pre-wrap break-all text-zinc-500">{line.text}</div>
+    <div className="whitespace-pre-wrap break-all text-ink-hi0">{line.text}</div>
   );
 }
 
@@ -103,12 +103,12 @@ export function AgentTerminal() {
   }, [reduceMotion]);
 
   return (
-    <div className="overflow-hidden rounded-xl border border-white/10 bg-black/70 shadow-2xl shadow-emerald-500/5">
-      <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.03] px-4 py-3">
+    <div className="overflow-hidden rounded-xl border border-line bg-surface-deep shadow-2xl shadow-emerald-500/5">
+      <div className="flex items-center gap-2 border-b border-line bg-surface-raised px-4 py-3">
         <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
         <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
         <span className="h-3 w-3 rounded-full bg-[#28c840]" />
-        <span className="ml-2 truncate font-mono text-xs text-zinc-500">
+        <span className="ml-2 truncate font-mono text-xs text-ink-hi0">
           {SITE.handle}@sentinel: ~/agent-cluster
         </span>
         <span className="ml-auto flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 font-mono text-[10px] tracking-widest text-emerald-300">
@@ -127,13 +127,13 @@ export function AgentTerminal() {
         {typing && (
           <div className="whitespace-pre-wrap break-all">
             <span className="text-emerald-400">$ </span>
-            <span className="text-zinc-100">{typing}</span>
+            <span className="text-ink-hi">{typing}</span>
             <span className="animate-pulse text-emerald-400">▊</span>
           </div>
         )}
         {!typing && ghStats && (
-          <div className="whitespace-pre-wrap break-all pt-1 text-zinc-500">
-            <span className="text-zinc-600">→ </span>
+          <div className="whitespace-pre-wrap break-all pt-1 text-ink-hi0">
+            <span className="text-ink-faint">→ </span>
             {ghStats}
           </div>
         )}
@@ -145,8 +145,8 @@ export function AgentTerminal() {
         )}
       </div>
 
-      <div className="border-t border-white/10 px-4 py-2.5">
-        <p className="font-mono text-[10px] tracking-wider text-zinc-600">
+      <div className="border-t border-line px-4 py-2.5">
+        <p className="font-mono text-[10px] tracking-wider text-ink-faint">
           simulated live view · repo stats pulled live from the github api
         </p>
       </div>

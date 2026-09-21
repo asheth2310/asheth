@@ -9,7 +9,7 @@ export function PlaygroundSection() {
   return (
     <section
       id="playground"
-      className="scroll-mt-20 border-y border-white/10 bg-white/[0.015] py-12 md:py-16"
+      className="scroll-mt-20 border-y border-line bg-surface-card py-12 md:py-16"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeading

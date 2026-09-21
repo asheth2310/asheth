@@ -76,12 +76,12 @@ export function AgentConsole() {
   };
 
   return (
-    <div className="overflow-hidden rounded-xl border border-white/10 bg-black/70 shadow-2xl">
-      <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.03] px-4 py-3">
+    <div className="overflow-hidden rounded-xl border border-line bg-surface-deep shadow-2xl">
+      <div className="flex items-center gap-2 border-b border-line bg-surface-raised px-4 py-3">
         <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
         <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
         <span className="h-3 w-3 rounded-full bg-[#28c840]" />
-        <span className="ml-2 font-mono text-xs text-zinc-500">
+        <span className="ml-2 font-mono text-xs text-ink-hi0">
           agent://aagam — live
         </span>
         <span
@@ -116,18 +116,18 @@ export function AgentConsole() {
             {m.role === "user" ? (
               <p>
                 <span className="text-emerald-400">$ </span>
-                <span className="text-zinc-100">{messageText(m)}</span>
+                <span className="text-ink-hi">{messageText(m)}</span>
               </p>
             ) : (
               <p>
                 <span className="text-cyan-400">› </span>
-                <span className="text-zinc-400">{messageText(m)}</span>
+                <span className="text-ink-mid">{messageText(m)}</span>
               </p>
             )}
           </div>
         ))}
         {isLoading && (
-          <p className="text-zinc-600">
+          <p className="text-ink-faint">
             <span className="text-cyan-400">› </span>
             <span className="animate-pulse">▊</span>
           </p>
@@ -135,7 +135,7 @@ export function AgentConsole() {
       </div>
 
       {messages.length <= 1 && (
-        <div className="flex flex-wrap gap-2 border-t border-white/10 px-4 py-3">
+        <div className="flex flex-wrap gap-2 border-t border-line px-4 py-3">
           {PLAYGROUND_PROMPTS.map((p) => (
             <button
               key={p}
@@ -154,7 +154,7 @@ export function AgentConsole() {
           e.preventDefault();
           submit(input);
         }}
-        className="flex items-center gap-2 border-t border-white/10 bg-white/[0.02] px-4 py-2.5"
+        className="flex items-center gap-2 border-t border-line bg-surface-card px-4 py-2.5"
       >
         <span className="font-mono text-sm text-emerald-400">$</span>
         <input
@@ -162,13 +162,13 @@ export function AgentConsole() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="ask about the systems, stack, experience…"
           aria-label="Ask the agent"
-          className="w-full bg-transparent font-mono text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none"
+          className="w-full bg-transparent font-mono text-sm text-ink-hi placeholder:text-ink-faint focus:outline-none"
         />
         <button
           type="submit"
           disabled={isLoading || !input.trim()}
           aria-label="Send"
-          className="rounded-md p-2 text-zinc-500 transition-colors hover:text-emerald-300 disabled:opacity-40"
+          className="rounded-md p-2 text-ink-hi0 transition-colors hover:text-emerald-300 disabled:opacity-40"
         >
           <CornerDownLeft size={16} />
         </button>

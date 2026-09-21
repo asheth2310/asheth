@@ -929,7 +929,7 @@ function Avatar({ who }: { who: "user" | "agent" }) {
     >
       <Icon
         size={12}
-        className={who === "user" ? "text-zinc-300" : "text-cyan-300"}
+        className={who === "user" ? "text-ink" : "text-cyan-300"}
       />
     </span>
   );
@@ -1038,18 +1038,18 @@ export function AgentWorkflow() {
   const activeStep = activeIdx >= 0 ? scenario.steps[activeIdx] : null;
 
   return (
-    <div className="mt-10 border-t border-white/10 pt-8">
+    <div className="mt-10 border-t border-line pt-8">
       {/* Header */}
       <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="mb-3 font-mono text-xs tracking-[0.25em] text-cyan-400/90">
             ● PUBLIC REFERENCE IMPLEMENTATION
           </p>
-          <h3 className="text-2xl font-bold tracking-tight text-zinc-50 md:text-3xl">
+          <h3 className="text-2xl font-bold tracking-tight text-ink-hi md:text-3xl">
             Agent workflow playground
           </h3>
         </div>
-        <p className="max-w-sm text-sm leading-relaxed text-zinc-400">
+        <p className="max-w-sm text-sm leading-relaxed text-ink-mid">
           A source-aligned simulation of the bounded LangGraph ReAct loop,
           customer-scoped tools and deterministic safety guards — the same
           patterns behind the agent systems in{" "}
@@ -1066,8 +1066,8 @@ export function AgentWorkflow() {
       </div>
 
       {/* Agent picker */}
-      <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4 md:p-5">
-        <p className="mb-3 font-mono text-[11px] tracking-[0.2em] text-zinc-500">
+      <div className="rounded-xl border border-line bg-surface-card p-4 md:p-5">
+        <p className="mb-3 font-mono text-[11px] tracking-[0.2em] text-ink-hi0">
           AGENT_SELECT
         </p>
         <div className="grid gap-2 sm:grid-cols-3">
@@ -1088,22 +1088,22 @@ export function AgentWorkflow() {
                 className={`flex items-start gap-2.5 rounded-lg border p-2.5 text-left transition-colors disabled:opacity-60 ${
                   active
                     ? "border-cyan-400/70 bg-cyan-950/30"
-                    : "border-white/10 bg-black/30 hover:border-white/25"
+                    : "border-line bg-surface-well hover:border-line"
                 }`}
               >
                 <Icon
                   size={14}
-                  className={`mt-0.5 shrink-0 ${active ? "text-cyan-300" : "text-zinc-500"}`}
+                  className={`mt-0.5 shrink-0 ${active ? "text-cyan-300" : "text-ink-hi0"}`}
                 />
                 <span>
                   <span
                     className={`block font-mono text-xs font-semibold ${
-                      active ? "text-cyan-200" : "text-zinc-200"
+                      active ? "text-cyan-200" : "text-ink"
                     }`}
                   >
                     {a.name}
                   </span>
-                  <span className="mt-0.5 block font-mono text-[10px] text-zinc-500">
+                  <span className="mt-0.5 block font-mono text-[10px] text-ink-hi0">
                     {a.role}
                   </span>
                 </span>
@@ -1112,14 +1112,14 @@ export function AgentWorkflow() {
           })}
         </div>
 
-        <p className="mt-2.5 rounded-lg border border-white/10 bg-black/30 px-4 py-2 font-mono text-xs text-zinc-400">
+        <p className="mt-2.5 rounded-lg border border-line bg-surface-well px-4 py-2 font-mono text-xs text-ink-mid">
           {agent.blurb}
         </p>
       </div>
 
       {/* Scenario input */}
-      <div className="mt-3 rounded-xl border border-white/10 bg-white/[0.02] p-4 md:p-5">
-        <p className="mb-3 font-mono text-[11px] tracking-[0.2em] text-zinc-500">
+      <div className="mt-3 rounded-xl border border-line bg-surface-card p-4 md:p-5">
+        <p className="mb-3 font-mono text-[11px] tracking-[0.2em] text-ink-hi0">
           SCENARIO_INPUT
         </p>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
@@ -1138,24 +1138,24 @@ export function AgentWorkflow() {
                 className={`rounded-lg border p-2.5 text-left transition-colors disabled:opacity-60 ${
                   active
                     ? "border-cyan-400/70 bg-cyan-950/30"
-                    : "border-white/10 bg-black/30 hover:border-white/25"
+                    : "border-line bg-surface-well hover:border-line"
                 }`}
               >
                 <span
                   className={`block font-mono text-[9px] tracking-widest ${
-                    active ? "text-cyan-300" : "text-zinc-600"
+                    active ? "text-cyan-300" : "text-ink-faint"
                   }`}
                 >
                   SCENARIO {s.index}
                 </span>
                 <span
                   className={`mt-0.5 block font-mono text-xs font-semibold ${
-                    active ? "text-cyan-200" : "text-zinc-100"
+                    active ? "text-cyan-200" : "text-ink-hi"
                   }`}
                 >
                   {s.title}
                 </span>
-                <span className="block font-mono text-[10px] text-zinc-500">
+                <span className="block font-mono text-[10px] text-ink-hi0">
                   {s.subtitle}
                 </span>
               </button>
@@ -1164,20 +1164,20 @@ export function AgentWorkflow() {
         </div>
 
         <div className="mt-3 grid gap-2 lg:grid-cols-2">
-          <div className="flex items-center gap-3 rounded-lg border border-white/10 bg-black/30 px-4 py-2.5">
+          <div className="flex items-center gap-3 rounded-lg border border-line bg-surface-well px-4 py-2.5">
             <span className="shrink-0 font-mono text-[10px] tracking-widest text-cyan-300">
               USE CASE
             </span>
-            <span className="font-mono text-xs text-zinc-300">
+            <span className="font-mono text-xs text-ink">
               {scenario.useCase}
             </span>
           </div>
-          <div className="flex items-start gap-3 rounded-lg border border-white/10 bg-black/30 px-4 py-2.5">
+          <div className="flex items-start gap-3 rounded-lg border border-line bg-surface-well px-4 py-2.5">
             <ShieldCheck size={14} className="mt-0.5 shrink-0 text-cyan-400" />
             <span className="shrink-0 font-mono text-[10px] tracking-widest text-cyan-300">
               CONTROL
             </span>
-            <span className="font-mono text-xs leading-relaxed text-zinc-300">
+            <span className="font-mono text-xs leading-relaxed text-ink">
               {scenario.control}
             </span>
           </div>
@@ -1185,10 +1185,10 @@ export function AgentWorkflow() {
       </div>
 
       {/* Conversation + trace */}
-      <div className="mt-3 grid overflow-hidden rounded-xl border border-white/10 lg:grid-cols-2">
+      <div className="mt-3 grid overflow-hidden rounded-xl border border-line lg:grid-cols-2">
         {/* Left: conversation */}
-        <div className="border-b border-white/10 lg:border-b-0 lg:border-r">
-          <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.03] px-4 py-3">
+        <div className="border-b border-line lg:border-b-0 lg:border-r">
+          <div className="flex items-center gap-2 border-b border-line bg-surface-raised px-4 py-3">
             <AgentIcon size={15} className="text-cyan-400" />
             <span className="font-mono text-xs tracking-widest text-cyan-300">
               {agent.name}
@@ -1211,7 +1211,7 @@ export function AgentWorkflow() {
             className="h-[340px] space-y-3 overflow-y-auto p-4"
           >
             {turns.length === 0 && !running && (
-              <p className="pt-16 text-center font-mono text-xs text-zinc-600">
+              <p className="pt-16 text-center font-mono text-xs text-ink-faint">
                 {"//"} select a scenario and run the conversation
               </p>
             )}
@@ -1220,10 +1220,10 @@ export function AgentWorkflow() {
               t.from === "user" ? (
                 <div key={i} className="flex items-end justify-end gap-2">
                   <div className="flex max-w-[80%] flex-col items-end">
-                    <span className="mb-1 font-mono text-[9px] tracking-[0.2em] text-zinc-500">
+                    <span className="mb-1 font-mono text-[9px] tracking-[0.2em] text-ink-hi0">
                       GUEST
                     </span>
-                    <div className="rounded-xl rounded-br-sm border border-indigo-400/25 bg-indigo-500/15 px-3.5 py-2.5 text-[13px] text-zinc-100">
+                    <div className="rounded-xl rounded-br-sm border border-indigo-400/25 bg-indigo-500/15 px-3.5 py-2.5 text-[13px] text-ink-hi">
                       {t.text}
                     </div>
                   </div>
@@ -1233,10 +1233,10 @@ export function AgentWorkflow() {
                 <div key={i} className="flex items-start gap-2">
                   <Avatar who="agent" />
                   <div className="flex max-w-[80%] flex-col items-start">
-                    <span className="mb-1 font-mono text-[9px] tracking-[0.2em] text-zinc-500">
+                    <span className="mb-1 font-mono text-[9px] tracking-[0.2em] text-ink-hi0">
                       {agent.name.replace("_AGENT", " AGENT")}
                     </span>
-                    <div className="rounded-xl rounded-bl-sm border border-white/10 bg-zinc-800/70 px-3.5 py-2.5 text-[13px] leading-relaxed text-zinc-300">
+                    <div className="rounded-xl rounded-bl-sm border border-line bg-zinc-800/70 px-3.5 py-2.5 text-[13px] leading-relaxed text-ink">
                       {t.text}
                     </div>
                   </div>
@@ -1248,7 +1248,7 @@ export function AgentWorkflow() {
               <div className="flex items-start gap-2">
                 <Avatar who="agent" />
                 <div className="flex flex-col items-start">
-                  <span className="mb-1 font-mono text-[9px] tracking-[0.2em] text-zinc-500">
+                  <span className="mb-1 font-mono text-[9px] tracking-[0.2em] text-ink-hi0">
                     {agent.name.replace("_AGENT", " AGENT")} · THINKING
                   </span>
                   <span className="flex items-center gap-2 rounded-md border border-cyan-400/40 bg-cyan-950/30 px-2.5 py-1.5 font-mono text-[11px] text-cyan-300">
@@ -1267,13 +1267,13 @@ export function AgentWorkflow() {
 
         {/* Right: trace */}
         <div>
-          <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.03] px-4 py-3">
-            <span className="font-mono text-xs text-zinc-400">
+          <div className="flex items-center justify-between border-b border-line bg-surface-raised px-4 py-3">
+            <span className="font-mono text-xs text-ink-mid">
               {agent.runtime}
             </span>
             <span
               className={`font-mono text-[10px] tracking-widest ${
-                running ? "text-cyan-300" : "text-zinc-500"
+                running ? "text-cyan-300" : "text-ink-hi0"
               }`}
             >
               {running ? "STREAMING" : phase === "done" ? "COMPLETE" : "IDLE"}
@@ -1303,7 +1303,7 @@ export function AgentWorkflow() {
                   } ${status === "wait" ? "opacity-45" : ""}`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="w-6 shrink-0 font-mono text-[11px] text-zinc-600">
+                    <span className="w-6 shrink-0 font-mono text-[11px] text-ink-faint">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <Icon
@@ -1313,7 +1313,7 @@ export function AgentWorkflow() {
                           ? "text-red-400"
                           : isRun
                             ? "text-cyan-300"
-                            : "text-zinc-400"
+                            : "text-ink-mid"
                       }`}
                     />
                     <span
@@ -1322,7 +1322,7 @@ export function AgentWorkflow() {
                           ? "text-red-400"
                           : isRun
                             ? "text-cyan-300"
-                            : "text-zinc-200"
+                            : "text-ink"
                       }`}
                     >
                       {step.label}
@@ -1339,7 +1339,7 @@ export function AgentWorkflow() {
                             ? "text-red-400"
                             : isRun
                               ? "text-cyan-300"
-                              : "text-zinc-600"
+                              : "text-ink-faint"
                         }`
                       }
                       >
@@ -1350,7 +1350,7 @@ export function AgentWorkflow() {
                   {status !== "wait" && (
                     <p
                       className={`ml-9 mt-1 font-mono text-[11px] leading-relaxed ${
-                        isRejected ? "text-red-400/80" : "text-zinc-500"
+                        isRejected ? "text-red-400/80" : "text-ink-hi0"
                       }`}
                     >
                       {step.desc}
@@ -1376,8 +1376,8 @@ export function AgentWorkflow() {
             })}
           </div>
 
-          <div className="border-t border-white/10 bg-black/40 px-4 py-2.5">
-            <p className="font-mono text-xs text-zinc-500">
+          <div className="border-t border-line bg-surface-well px-4 py-2.5">
+            <p className="font-mono text-xs text-ink-hi0">
               <span className="text-cyan-400">&gt; </span>
               {footerLine}
               <span className="animate-pulse">_</span>
@@ -1407,19 +1407,19 @@ export function AgentWorkflow() {
             href={SITE.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-11 items-center gap-2 rounded-lg border border-white/15 bg-black/40 px-4 font-mono text-sm text-zinc-200 transition-colors hover:border-cyan-400/40 hover:text-cyan-300"
+            className="flex h-11 items-center gap-2 rounded-lg border border-line bg-surface-well px-4 font-mono text-sm text-ink transition-colors hover:border-cyan-400/40 hover:text-cyan-300"
           >
             Inspect source
-            <ExternalLink size={13} className="shrink-0 text-zinc-500" />
+            <ExternalLink size={13} className="shrink-0 text-ink-hi0" />
           </a>
         </div>
         <div className="grid flex-[2] grid-cols-2 gap-2 sm:flex-1">
           {CONFIG_CHIPS.map(({ key, value }) => (
             <div
               key={key}
-              className="flex h-11 items-center justify-between rounded-lg border border-white/10 bg-black/30 px-3 py-2"
+              className="flex h-11 items-center justify-between rounded-lg border border-line bg-surface-well px-3 py-2"
             >
-              <span className="font-mono text-[10px] tracking-widest text-zinc-500">
+              <span className="font-mono text-[10px] tracking-widest text-ink-hi0">
                 {key}
               </span>
               <span className="font-mono text-[10px] tracking-widest text-cyan-300">
@@ -1430,7 +1430,7 @@ export function AgentWorkflow() {
         </div>
       </div>
 
-      <p className="mt-4 font-mono text-[11px] text-zinc-600">
+      <p className="mt-4 font-mono text-[11px] text-ink-faint">
         {"//"} deterministic front-end simulation — scenarios illustrate the
         bounded-agent pattern, not a specific deployed product
       </p>

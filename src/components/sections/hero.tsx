@@ -40,7 +40,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.08 }}
-            className="mb-4 font-mono text-xs tracking-[0.3em] text-zinc-500"
+            className="mb-4 font-mono text-xs tracking-[0.3em] text-ink-hi0"
           >
             {HERO.label}
           </motion.p>
@@ -49,7 +49,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="text-5xl font-bold leading-[1.05] tracking-tight text-zinc-50 md:text-7xl"
+            className="text-5xl font-bold leading-[1.05] tracking-tight text-ink-hi md:text-7xl"
           >
             {HERO.titleA}
             <br />
@@ -62,7 +62,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            className="mt-6 max-w-xl leading-relaxed text-zinc-400"
+            className="mt-6 max-w-xl leading-relaxed text-ink-mid"
           >
             {HERO.bio}
           </motion.p>
@@ -76,7 +76,7 @@ export function HeroSection() {
             {HERO.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1 font-mono text-xs text-zinc-400"
+                className="rounded-md border border-line bg-surface-raised px-2.5 py-1 font-mono text-xs text-ink-mid"
               >
                 {tag}
               </span>
@@ -104,7 +104,7 @@ export function HeroSection() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub profile"
-              className="rounded-lg border border-white/10 p-3 text-zinc-400 transition-colors hover:border-emerald-500/40 hover:text-emerald-300"
+              className="rounded-lg border border-line p-3 text-ink-mid transition-colors hover:border-emerald-500/40 hover:text-emerald-300"
             >
               <Github width={18} height={18} />
             </a>
@@ -113,11 +113,11 @@ export function HeroSection() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn profile"
-              className="flex items-center gap-2 rounded-lg border border-white/10 px-4 py-3 font-mono text-sm text-zinc-300 transition-colors hover:border-emerald-500/40 hover:text-emerald-300"
+              className="flex items-center gap-2 rounded-lg border border-line px-4 py-3 font-mono text-sm text-ink transition-colors hover:border-emerald-500/40 hover:text-emerald-300"
             >
               <Linkedin width={16} height={16} />
               LinkedIn
-              <ArrowUpRight size={14} className="text-zinc-500" />
+              <ArrowUpRight size={14} className="text-ink-hi0" />
             </a>
           </motion.div>
         </div>

@@ -26,7 +26,7 @@ function RoleRow({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.45 }}
-      className={`group border-t border-white/10 transition-colors first:border-t-0 hover:bg-cyan-500/[0.04] ${
+      className={`group border-t border-line transition-colors first:border-t-0 hover:bg-cyan-500/[0.04] ${
         isStart ? "bg-emerald-500/[0.05]" : ""
       }`}
     >
@@ -38,10 +38,10 @@ function RoleRow({
       >
         <span className="font-mono text-xs text-cyan-400/80">{num}</span>
         <span className="min-w-0">
-          <span className="block font-mono text-[11px] tracking-wider text-zinc-500">
+          <span className="block font-mono text-[11px] tracking-wider text-ink-hi0">
             {exp.period}
           </span>
-          <span className="mt-1 block truncate text-base font-bold text-zinc-50 transition-colors group-hover:text-cyan-300 sm:text-lg">
+          <span className="mt-1 block truncate text-base font-bold text-ink-hi transition-colors group-hover:text-cyan-300 sm:text-lg">
             {exp.role}
           </span>
           <span className="mt-0.5 block font-mono text-xs text-emerald-400/90">
@@ -52,7 +52,7 @@ function RoleRow({
           className={`border px-3 py-1.5 font-mono text-[10px] tracking-[0.2em] transition-colors ${
             isLatest
               ? "border-cyan-400/40 bg-cyan-500/10 text-cyan-300"
-              : "border-white/15 text-zinc-400 group-hover:border-cyan-400/50 group-hover:text-cyan-300"
+              : "border-line text-ink-mid group-hover:border-cyan-400/50 group-hover:text-cyan-300"
           }`}
         >
           {isLatest ? "LATEST" : open ? "CLOSE" : "VIEW ROLE"}
@@ -72,7 +72,7 @@ function RoleRow({
               {exp.points.map((pt) => (
                 <li
                   key={pt}
-                  className="flex gap-2 text-sm leading-relaxed text-zinc-400"
+                  className="flex gap-2 text-sm leading-relaxed text-ink-mid"
                 >
                   <span className="mt-0.5 shrink-0 font-mono text-emerald-500">
                     ▸
@@ -99,10 +99,10 @@ export function ExperienceSection() {
             CAREER TELEMETRY
           </p>
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <h2 className="max-w-xl text-3xl font-bold tracking-tight text-zinc-50 md:text-5xl">
+            <h2 className="max-w-xl text-3xl font-bold tracking-tight text-ink-hi md:text-5xl">
               Progression through production AI.
             </h2>
-            <p className="shrink-0 font-mono text-xs text-zinc-500">
+            <p className="shrink-0 font-mono text-xs text-ink-hi0">
               GTU → ASU · May 2021 to May 2026
             </p>
           </div>
@@ -115,15 +115,15 @@ export function ExperienceSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col rounded-xl border border-white/10 bg-white/[0.02] p-8"
+            className="flex flex-col rounded-xl border border-line bg-surface-card p-8"
           >
             <Zap className="h-6 w-6 text-cyan-400" fill="currentColor" />
-            <h3 className="mt-8 text-2xl font-bold leading-snug text-zinc-50">
+            <h3 className="mt-8 text-2xl font-bold leading-snug text-ink-hi">
               {ROLES} roles.
               <br />
               One continuous ascent.
             </h3>
-            <p className="mt-4 text-sm leading-relaxed text-zinc-400">
+            <p className="mt-4 text-sm leading-relaxed text-ink-mid">
               Progressed from research engineering to production AI systems —
               across data pipelines, full-stack development, and academic
               instruction.
@@ -131,7 +131,7 @@ export function ExperienceSection() {
           </motion.div>
 
           {/* Role rows */}
-          <div className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.01]">
+          <div className="overflow-hidden rounded-xl border border-line bg-white/[0.01]">
             {EXPERIENCE.map((exp, i) => (
               <RoleRow
                 key={exp.company}
@@ -150,13 +150,13 @@ export function ExperienceSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.5 }}
-          className="mt-6 flex flex-col gap-4 rounded-xl border border-white/10 bg-white/[0.02] px-6 py-5 sm:flex-row sm:items-center sm:justify-between"
+          className="mt-6 flex flex-col gap-4 rounded-xl border border-line bg-surface-card px-6 py-5 sm:flex-row sm:items-center sm:justify-between"
         >
           <div>
-            <p className="font-mono text-[10px] tracking-[0.25em] text-zinc-500">
+            <p className="font-mono text-[10px] tracking-[0.25em] text-ink-hi0">
               EDUCATION
             </p>
-            <p className="mt-1 font-bold text-zinc-50">
+            <p className="mt-1 font-bold text-ink-hi">
               M.S. Information Technology
             </p>
             <p className="font-mono text-xs text-cyan-400/90">
@@ -165,18 +165,18 @@ export function ExperienceSection() {
           </div>
           <div className="flex gap-10">
             <div>
-              <p className="font-mono text-[10px] tracking-[0.25em] text-zinc-500">
+              <p className="font-mono text-[10px] tracking-[0.25em] text-ink-hi0">
                 GRADUATED
               </p>
-              <p className="mt-1 font-mono text-lg font-bold text-zinc-50">
+              <p className="mt-1 font-mono text-lg font-bold text-ink-hi">
                 2026
               </p>
             </div>
             <div>
-              <p className="font-mono text-[10px] tracking-[0.25em] text-zinc-500">
+              <p className="font-mono text-[10px] tracking-[0.25em] text-ink-hi0">
                 PERIOD
               </p>
-              <p className="mt-1 font-mono text-lg font-bold text-zinc-50">
+              <p className="mt-1 font-mono text-lg font-bold text-ink-hi">
                 2024 — 26
               </p>
             </div>
@@ -188,31 +188,31 @@ export function ExperienceSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.5, delay: 0.08 }}
-          className="mt-4 flex flex-col gap-4 rounded-xl border border-white/10 bg-white/[0.02] px-6 py-5 sm:flex-row sm:items-center sm:justify-between"
+          className="mt-4 flex flex-col gap-4 rounded-xl border border-line bg-surface-card px-6 py-5 sm:flex-row sm:items-center sm:justify-between"
         >
           <div>
-            <p className="font-mono text-[10px] tracking-[0.25em] text-zinc-500">
+            <p className="font-mono text-[10px] tracking-[0.25em] text-ink-hi0">
               EDUCATION
             </p>
-            <p className="mt-1 font-bold text-zinc-50">B.Tech Computer Science</p>
+            <p className="mt-1 font-bold text-ink-hi">B.Tech Computer Science</p>
             <p className="font-mono text-xs text-cyan-400/90">
               Gujarat Technological University
             </p>
           </div>
           <div className="flex gap-10">
             <div>
-              <p className="font-mono text-[10px] tracking-[0.25em] text-zinc-500">
+              <p className="font-mono text-[10px] tracking-[0.25em] text-ink-hi0">
                 GRADUATED
               </p>
-              <p className="mt-1 font-mono text-lg font-bold text-zinc-50">
+              <p className="mt-1 font-mono text-lg font-bold text-ink-hi">
                 2024
               </p>
             </div>
             <div>
-              <p className="font-mono text-[10px] tracking-[0.25em] text-zinc-500">
+              <p className="font-mono text-[10px] tracking-[0.25em] text-ink-hi0">
                 PERIOD
               </p>
-              <p className="mt-1 font-mono text-lg font-bold text-zinc-50">
+              <p className="mt-1 font-mono text-lg font-bold text-ink-hi">
                 2020 — 24
               </p>
             </div>

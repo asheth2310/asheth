@@ -17,7 +17,7 @@ export function ContactSection() {
     {
       label: "GitHub",
       href: SITE.github,
-      icon: <Github width={16} height={16} className="text-zinc-300" />,
+      icon: <Github width={16} height={16} className="text-ink" />,
       external: true,
     },
     {
@@ -43,11 +43,11 @@ export function ContactSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
-          className="overflow-hidden rounded-xl border border-white/10 bg-black/50"
+          className="overflow-hidden rounded-xl border border-line bg-surface-deep"
         >
           {/* Chrome bar */}
-          <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.03] px-5 py-3">
-            <p className="flex items-center gap-2 font-mono text-xs text-zinc-500">
+          <div className="flex items-center justify-between border-b border-line bg-surface-raised px-5 py-3">
+            <p className="flex items-center gap-2 font-mono text-xs text-ink-hi0">
               <ShieldCheck size={14} className="text-emerald-400" />
               secure-channel://contact
             </p>
@@ -63,10 +63,10 @@ export function ContactSection() {
                 <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
                 START A CONVERSATION
               </p>
-              <h3 className="text-3xl font-bold tracking-tight text-zinc-50 md:text-4xl">
+              <h3 className="text-3xl font-bold tracking-tight text-ink-hi md:text-4xl">
                 Have a hard AI problem?
               </h3>
-              <p className="mt-4 text-sm leading-relaxed text-zinc-400">
+              <p className="mt-4 text-sm leading-relaxed text-ink-mid">
                 I&apos;m open to AI Engineering, Agentic AI and LLM Systems
                 opportunities.
               </p>
@@ -81,15 +81,15 @@ export function ContactSection() {
                   {...(link.external
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
-                  className="group flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.02] px-4 py-4 transition-colors hover:border-emerald-500/40 hover:bg-white/[0.04]"
+                  className="group flex items-center gap-3 rounded-lg border border-line bg-surface-card px-4 py-4 transition-colors hover:border-emerald-500/40 hover:bg-surface-raised"
                 >
                   {link.icon}
-                  <span className="font-mono text-base text-zinc-200 transition-colors group-hover:text-emerald-300">
+                  <span className="font-mono text-base text-ink transition-colors group-hover:text-emerald-300">
                     {link.label}
                   </span>
                   <ChevronRight
                     size={16}
-                    className="ml-auto shrink-0 text-zinc-600 transition-all group-hover:translate-x-0.5 group-hover:text-emerald-300"
+                    className="ml-auto shrink-0 text-ink-faint transition-all group-hover:translate-x-0.5 group-hover:text-emerald-300"
                   />
                 </a>
               ))}

@@ -101,20 +101,20 @@ export function StackMatrixSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: (gi % 2) * 0.1 }}
-              className="flex h-full flex-col rounded-xl border border-white/10 bg-white/[0.02] p-5"
+              className="flex h-full flex-col rounded-xl border border-line bg-surface-card p-5"
             >
               {/* Header: index · title · badge · count */}
-              <div className="mb-4 flex items-center gap-2.5 border-b border-white/10 pb-3">
+              <div className="mb-4 flex items-center gap-2.5 border-b border-line pb-3">
                 <span className="font-mono text-xs text-cyan-400">
                   {group.index}
                 </span>
-                <h3 className="text-sm font-bold tracking-tight text-zinc-50">
+                <h3 className="text-sm font-bold tracking-tight text-ink-hi">
                   {group.title}
                 </h3>
                 <span className="rounded border border-cyan-400/30 bg-cyan-950/40 px-1.5 py-0.5 font-mono text-[9px] font-semibold tracking-[0.15em] text-cyan-300">
                   {GROUP_BADGES[gi]}
                 </span>
-                <span className="ml-auto font-mono text-[10px] tracking-widest text-zinc-500">
+                <span className="ml-auto font-mono text-[10px] tracking-widest text-ink-hi0">
                   {String(group.items.length).padStart(2, "0")} TOOLS
                 </span>
               </div>
@@ -125,10 +125,10 @@ export function StackMatrixSection() {
                   <span
                     key={item.name}
                     title={item.blurb}
-                    className="flex cursor-default items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-2.5 py-1.5 transition-colors hover:border-cyan-400/40 hover:bg-cyan-950/20"
+                    className="flex cursor-default items-center gap-2 rounded-lg border border-line bg-surface-raised px-2.5 py-1.5 transition-colors hover:border-cyan-400/40 hover:bg-cyan-950/20"
                   >
                     <TechIcon name={item.name} />
-                    <span className="font-mono text-xs text-zinc-200">
+                    <span className="font-mono text-xs text-ink">
                       {item.name}
                     </span>
                   </span>
