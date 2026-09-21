@@ -93,7 +93,7 @@ export function StackMatrixSection() {
           sub="The tools I reach for to take AI systems from notebook to production — grouped by where they do their work."
         />
 
-        <div className="grid items-start gap-4 md:grid-cols-2">
+        <div className="grid auto-rows-fr gap-4 md:grid-cols-2">
           {STACK_GROUPS.map((group, gi) => (
             <motion.div
               key={group.index}
@@ -101,7 +101,7 @@ export function StackMatrixSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: (gi % 2) * 0.1 }}
-              className="rounded-xl border border-white/10 bg-white/[0.02] p-5"
+              className="flex h-full flex-col rounded-xl border border-white/10 bg-white/[0.02] p-5"
             >
               {/* Header: index · title · badge · count */}
               <div className="mb-4 flex items-center gap-2.5 border-b border-white/10 pb-3">
