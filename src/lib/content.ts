@@ -197,7 +197,7 @@ export const EXPERIENCE: Experience[] = [
     ],
   },
   {
-    period: "Aug 2024 — Present",
+    period: "Aug 2024 — May 2026",
     role: "Academic Tutor",
     company: "Arizona State University",
     points: [
@@ -375,7 +375,7 @@ const FALLBACK_ANSWERS: Record<string, string> = {
   who: "Aagam Sheth is a Software & AI Systems Engineer pursuing his MS in Information Technology at Arizona State University (2024–2026). He builds intelligent applications where models, agents, and deterministic software work together.",
   experience: [
     "• SDE Intern, Zummit Infolab (May 2025 — Oct 2025): data pipelines feeding AI workflows, LLM feature integration, full-stack development.",
-    "• Academic Tutor, Arizona State University (Aug 2024 — Present): tutoring 50+ students in CS, Math, Statistics.",
+    "• Academic Tutor, Arizona State University (Aug 2024 — May 2026): tutoring 50+ students in CS, Math, Statistics.",
     "• Software Development Intern, Kintu Designs (Mar 2024 — Aug 2024): microservices, AI-driven log analysis for CI/CD, ~40% faster incident detection.",
     "• Software Engineer Intern, Uniqual Itech (May 2023 — Jul 2023): 17+ React components, AI data-transformation pipelines.",
     "• Undergraduate Research Assistant, Gujarat Technological University (2021 — 2022): cleaned 50K+ multilingual records, compared classifiers with scikit-learn.",
@@ -418,7 +418,7 @@ REAL PROJECTS (all at github.com/asheth2310 — do not invent others or star cou
 
 EXPERIENCE
 - SDE Intern, Zummit Infolab (May 2025–Oct 2025): engineered data pipelines into model-ready datasets, integrated LLM-driven AI features into production apps, developed full-stack React/Python functionality.
-- Academic Tutor, ASU (Aug 2024–Present): 50+ students, CS/Math/Statistics.
+- Academic Tutor, ASU (Aug 2024–May 2026): 50+ students, CS/Math/Statistics.
 - Software Development Intern, Kintu Designs (Mar 2024–Aug 2024): microservices, AI-driven log analysis for CI/CD, ~40% faster incident detection.
 - Software Engineer Intern, Uniqual Itech (May–Jul 2023): 17+ React components, AI data-transformation pipelines.
 - Undergraduate Research Assistant, GTU (2021–2022): 50K+ multilingual records cleaned; classifier comparison with scikit-learn.
