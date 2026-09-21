@@ -43,7 +43,7 @@ export function ContactSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
-          className="mx-auto max-w-4xl overflow-hidden rounded-xl border border-white/10 bg-black/50"
+          className="overflow-hidden rounded-xl border border-white/10 bg-black/50"
         >
           {/* Chrome bar */}
           <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.03] px-5 py-3">
