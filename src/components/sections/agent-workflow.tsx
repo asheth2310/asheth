@@ -1038,7 +1038,7 @@ export function AgentWorkflow() {
   const activeStep = activeIdx >= 0 ? scenario.steps[activeIdx] : null;
 
   return (
-    <div className="mt-14 border-t border-white/10 pt-10">
+    <div className="mt-10 border-t border-white/10 pt-8">
       {/* Header */}
       <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>

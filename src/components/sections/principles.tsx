@@ -8,7 +8,7 @@ export function PrinciplesSection() {
   return (
     <section
       id="principles"
-      className="scroll-mt-20 border-y border-white/10 bg-white/[0.015] py-16 md:py-24"
+      className="scroll-mt-20 border-y border-white/10 bg-white/[0.015] py-12 md:py-16"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeading

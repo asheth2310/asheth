@@ -84,7 +84,7 @@ function TechIcon({ name }: { name: string }) {
 
 export function StackMatrixSection() {
   return (
-    <section id="stack" className="scroll-mt-20 py-16 md:py-24">
+    <section id="stack" className="scroll-mt-20 py-12 md:py-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeading
           index="04"

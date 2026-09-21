@@ -14,10 +14,10 @@ export function SystemsSection() {
   const [selected, setSelected] = useState<string | null>(null);
 
   return (
-    <section id="systems" className="scroll-mt-20 py-16 md:py-24">
+    <section id="systems" className="scroll-mt-20 py-12 md:py-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* Header */}
-        <div className="mb-10 md:mb-12">
+        <div className="mb-8 md:mb-10">
           <p className="mb-4 font-mono text-xs tracking-[0.25em] text-cyan-400/90">
             ● CORE PRODUCTION SYSTEMS
           </p>
