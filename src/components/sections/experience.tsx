@@ -213,7 +213,7 @@ export function ExperienceSection() {
                 PERIOD
               </p>
               <p className="mt-1 font-mono text-lg font-bold text-zinc-50">
-                Jul 2020 — Jun 2024
+                2020 — 24
               </p>
             </div>
           </div>
