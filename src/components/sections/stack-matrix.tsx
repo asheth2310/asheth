@@ -15,7 +15,7 @@ export function StackMatrixSection() {
           sub="The tools I reach for to take AI systems from notebook to production — grouped by where they do their work."
         />
 
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="grid items-start gap-4 md:grid-cols-2">
           {STACK_GROUPS.map((group, gi) => (
             <motion.div
               key={group.index}
@@ -25,8 +25,8 @@ export function StackMatrixSection() {
               transition={{ duration: 0.5, delay: (gi % 2) * 0.1 }}
               className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.02]"
             >
-              <div className="border-b border-white/10 bg-black/40 px-6 py-4">
-                <p className="font-mono text-xs tracking-[0.2em] text-zinc-500">
+              <div className="border-b border-white/10 bg-black/40 px-5 py-3">
+                <p className="font-mono text-[11px] tracking-[0.2em] text-zinc-500">
                   <span className="text-emerald-400">{group.index}</span>
                   {" // "}
                   {group.title.toUpperCase()}
@@ -36,12 +36,12 @@ export function StackMatrixSection() {
                 {group.items.map((item) => (
                   <li
                     key={item.name}
-                    className="group/item flex items-baseline justify-between gap-4 px-6 py-3 transition-colors hover:bg-emerald-500/[0.04]"
+                    className="group/item flex items-baseline justify-between gap-4 px-5 py-2 transition-colors hover:bg-emerald-500/[0.04]"
                   >
-                    <span className="shrink-0 font-mono text-sm font-medium text-zinc-200 transition-colors group-hover/item:text-emerald-300">
+                    <span className="shrink-0 font-mono text-xs font-medium text-zinc-200 transition-colors group-hover/item:text-emerald-300">
                       {item.name}
                     </span>
-                    <span className="text-right text-[13px] leading-snug text-zinc-600">
+                    <span className="text-right text-[11px] leading-snug text-zinc-600">
                       {item.blurb}
                     </span>
                   </li>
