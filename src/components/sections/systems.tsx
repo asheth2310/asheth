@@ -4,11 +4,14 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Star, ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "@/components/site/section-heading";
+import { ProjectModal } from "@/components/ui/project-modal";
 import { SYSTEMS } from "@/lib/content";
+import { PROJECT_DETAILS } from "@/lib/project-details";
 import { SITE } from "@/lib/site";
 
 export function SystemsSection() {
   const [liveStats, setLiveStats] = useState<Record<string, number>>({});
+  const [selected, setSelected] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -44,7 +47,18 @@ export function SystemsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.5, delay: (i % 2) * 0.1 }}
-              className="group flex flex-col rounded-xl border border-white/10 bg-white/[0.02] p-6 transition-colors hover:border-emerald-500/30 hover:bg-white/[0.04] md:p-7"
+              onClick={() => setSelected(sys.repoName)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setSelected(sys.repoName);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-haspopup="dialog"
+              aria-label={`${sys.title} — open details`}
+              className="group flex cursor-pointer flex-col rounded-xl border border-white/10 bg-white/[0.02] p-6 transition-colors hover:border-cyan-500/30 hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400/60 md:p-7"
             >
               <div className="mb-4 flex items-center justify-between">
                 <span className="font-mono text-xs text-zinc-600">
@@ -90,13 +104,16 @@ export function SystemsSection() {
                     {t}
                   </span>
                 ))}
-              </div>
-
-              <div className="mt-6 border-t border-white/10 pt-4">
+              </div>              <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
+                <span className="inline-flex items-center gap-1.5 font-mono text-sm text-zinc-500 transition-colors group-hover:text-cyan-300">
+                  <span className="text-zinc-600">$</span> view details
+                </span>
                 <a
                   href={`${SITE.github}/${sys.repoName}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  aria-label={`${sys.title} source on GitHub`}
                   className="inline-flex items-center gap-1.5 font-mono text-sm text-zinc-300 transition-colors hover:text-emerald-300"
                 >
                   <span className="text-zinc-600">$</span> open source
@@ -107,7 +124,8 @@ export function SystemsSection() {
                 </a>
               </div>
             </motion.article>
-          ))}
+          ))
+        }
         </div>
 
         <p className="mt-8 text-center font-mono text-xs text-zinc-600">
@@ -122,6 +140,14 @@ export function SystemsSection() {
           </a>
         </p>
       </div>
+
+      {selected && PROJECT_DETAILS[selected] && (
+        <ProjectModal
+          title={SYSTEMS.find((s) => s.repoName === selected)?.title ?? selected}
+          detail={PROJECT_DETAILS[selected]}
+          onClose={() => setSelected(null)}
+        />
+      )}
     </section>
   );
 }
