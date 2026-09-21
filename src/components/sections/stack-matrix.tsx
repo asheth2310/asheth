@@ -1,8 +1,86 @@
 "use client";
 
+import type { ComponentType } from "react";
 import { motion } from "framer-motion";
+import {
+  Bot,
+  Brain,
+  Code2,
+  Database,
+  MessagesSquare,
+} from "lucide-react";
+import {
+  SiApachekafka,
+  SiFastapi,
+  SiGo,
+  SiGraphql,
+  SiJavascript,
+  SiMongodb,
+  SiNodedotjs,
+  SiPostgresql,
+  SiPytorch,
+  SiReact,
+  SiRedis,
+  SiScikitlearn,
+  SiSpringboot,
+  SiTypescript,
+  SiKubernetes,
+} from "react-icons/si";
+import { FaAws, FaDocker, FaJava, FaPython } from "react-icons/fa6";
 import { SectionHeading } from "@/components/site/section-heading";
 import { STACK_GROUPS } from "@/lib/content";
+
+type IconType = ComponentType<{ size?: number; className?: string }>;
+
+/** Brand + conceptual logos, keyed by tech name from STACK_GROUPS. */
+const TECH_ICONS: Record<string, IconType> = {
+  // AI & Intelligent Systems
+  "LLM Agents": Bot as IconType,
+  NLP: MessagesSquare as IconType,
+  "OpenAI API": Brain as IconType,
+  PyTorch: SiPytorch,
+  "Machine Learning": SiScikitlearn,
+  // Languages
+  Python: FaPython,
+  Java: FaJava,
+  JavaScript: SiJavascript,
+  TypeScript: SiTypescript,
+  "C++": Code2 as IconType,
+  SQL: Database as IconType,
+  Go: SiGo,
+  // Backend & Data
+  "Node.js": SiNodedotjs,
+  FastAPI: SiFastapi,
+  "Spring Boot": SiSpringboot,
+  GraphQL: SiGraphql,
+  PostgreSQL: SiPostgresql,
+  MongoDB: SiMongodb,
+  Redis: SiRedis,
+  Kafka: SiApachekafka,
+  // Cloud, DevOps & Frontend
+  AWS: FaAws,
+  Docker: FaDocker,
+  Kubernetes: SiKubernetes,
+  React: SiReact,
+};
+
+const FALLBACK_ICON: IconType = Code2 as IconType;
+
+const GROUP_BADGES = [
+  "AI / ML",
+  "CORE",
+  "SERVICES",
+  "PLATFORM",
+];
+
+function TechIcon({ name }: { name: string }) {
+  const Icon = TECH_ICONS[name] ?? FALLBACK_ICON;
+  return (
+    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-cyan-950/60">
+      <Icon size={12} className="text-cyan-300" />
+    </span>
+  );
+}
 
 export function StackMatrixSection() {
   return (
@@ -23,30 +101,39 @@ export function StackMatrixSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: (gi % 2) * 0.1 }}
-              className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.02]"
+              className="rounded-xl border border-white/10 bg-white/[0.02] p-5"
             >
-              <div className="border-b border-white/10 bg-black/40 px-5 py-3">
-                <p className="font-mono text-[11px] tracking-[0.2em] text-zinc-500">
-                  <span className="text-emerald-400">{group.index}</span>
-                  {" // "}
-                  {group.title.toUpperCase()}
-                </p>
+              {/* Header: index · title · badge · count */}
+              <div className="mb-4 flex items-center gap-2.5 border-b border-white/10 pb-3">
+                <span className="font-mono text-xs text-cyan-400">
+                  {group.index}
+                </span>
+                <h3 className="text-sm font-bold tracking-tight text-zinc-50">
+                  {group.title}
+                </h3>
+                <span className="rounded border border-cyan-400/30 bg-cyan-950/40 px-1.5 py-0.5 font-mono text-[9px] font-semibold tracking-[0.15em] text-cyan-300">
+                  {GROUP_BADGES[gi]}
+                </span>
+                <span className="ml-auto font-mono text-[10px] tracking-widest text-zinc-500">
+                  {String(group.items.length).padStart(2, "0")} TOOLS
+                </span>
               </div>
-              <ul className="divide-y divide-white/5">
+
+              {/* Logo pills */}
+              <div className="flex flex-wrap gap-2">
                 {group.items.map((item) => (
-                  <li
+                  <span
                     key={item.name}
-                    className="group/item flex items-baseline justify-between gap-4 px-5 py-2 transition-colors hover:bg-emerald-500/[0.04]"
+                    title={item.blurb}
+                    className="flex cursor-default items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-2.5 py-1.5 transition-colors hover:border-cyan-400/40 hover:bg-cyan-950/20"
                   >
-                    <span className="shrink-0 font-mono text-xs font-medium text-zinc-200 transition-colors group-hover/item:text-emerald-300">
+                    <TechIcon name={item.name} />
+                    <span className="font-mono text-xs text-zinc-200">
                       {item.name}
                     </span>
-                    <span className="text-right text-[11px] leading-snug text-zinc-600">
-                      {item.blurb}
-                    </span>
-                  </li>
+                  </span>
                 ))}
-              </ul>
+              </div>
             </motion.div>
           ))}
         </div>
