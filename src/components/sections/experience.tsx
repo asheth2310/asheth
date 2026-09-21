@@ -90,10 +90,10 @@ function RoleRow({
 
 export function ExperienceSection() {
   return (
-    <section id="experience" className="scroll-mt-20 py-24 md:py-32">
+    <section id="experience" className="scroll-mt-20 py-16 md:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* Header — telemetry style */}
-        <div className="mb-12 md:mb-16">
+        <div className="mb-10 md:mb-12">
           <p className="mb-4 flex items-center gap-2 font-mono text-xs tracking-[0.25em] text-cyan-400/90">
             <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
             CAREER TELEMETRY
