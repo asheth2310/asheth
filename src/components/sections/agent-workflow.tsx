@@ -6,6 +6,7 @@ import {
   Bot,
   Brain,
   CalendarCheck,
+  Check,
   Database,
   ExternalLink,
   LifeBuoy,
@@ -22,15 +23,24 @@ import { SITE } from "@/lib/site";
  * Agent workflow playground — public reference implementation.
  *
  * A deterministic, front-end simulation of the bounded LangGraph ReAct loop
- * that powers Aagam's production agents: retrieve context → call model →
- * await input / call tools → validate → compose reply, with deterministic
- * safety guards between every model call. The scenario data mirrors the
- * patterns used across the portfolio's agent systems.
+ * that powers modern production agents: retrieve context → call model →
+ * await user input / call scoped tools → enforce deterministic guards →
+ * compose reply. Scenarios illustrate the pattern; they are not a specific
+ * deployed product.
  */
 
 type FinalStatus = "ok" | "rejected" | "output";
 type Status = "wait" | "run" | FinalStatus;
-type StepKind = "receive" | "ground" | "model" | "await" | "tool" | "gate" | "policy" | "execute" | "reply";
+type StepKind =
+  | "receive"
+  | "ground"
+  | "model"
+  | "await"
+  | "tool"
+  | "gate"
+  | "policy"
+  | "execute"
+  | "reply";
 
 interface Turn {
   from: "user" | "agent";
@@ -39,9 +49,9 @@ interface Turn {
 
 interface TraceStep {
   label: string;
+  desc: string;
   kind: StepKind;
   final: FinalStatus;
-  detail?: string;
   note?: string;
   emit?: Turn[];
 }
@@ -85,58 +95,63 @@ const AGENTS: Agent[] = [
         steps: [
           {
             label: "RETRIEVE CONTEXT",
+            desc: "Retrieving the guest's recent conversation and booking context.",
             kind: "ground",
             final: "ok",
-            note: "floor plan · tonight's seat map · booking policy",
+            emit: [
+              {
+                from: "user",
+                text: "Book an outdoor table for two tomorrow evening.",
+              },
+            ],
           },
           {
             label: "CALL MODEL",
+            desc: "Interpreting party size, date, time and outdoor seating preference.",
             kind: "model",
             final: "ok",
-            detail: "intent=book · party=2 · day=tomorrow · seating=outdoor",
-            note: "slots extracted from the message",
           },
           {
             label: "AWAIT USER INPUT",
+            desc: "Waiting for the guest to provide the required reservation time.",
             kind: "await",
             final: "ok",
-            note: "time slot confirmed: 7:30 PM",
+            emit: [{ from: "user", text: "7:30 PM works for me." }],
           },
           {
             label: "CHECK AVAILABILITY",
+            desc: "Checking live table availability for the requested slot.",
             kind: "tool",
             final: "ok",
-            note: "table 14 · outdoor · 2 seats open",
           },
           {
             label: "CALL MODEL",
+            desc: "Reviewing availability and preparing the validated booking request.",
             kind: "model",
             final: "ok",
-            detail: "confirm(message, slot) → complete",
-            note: "all required fields present",
           },
           {
             label: "CREATE RESERVATION",
+            desc: "Creating the reservation with the confirmed details.",
             kind: "tool",
             final: "ok",
-            note: "write allowed · availability held under lock",
+            note: "write allowed · slot held under lock",
           },
           {
             label: "CALL MODEL",
+            desc: "Composing a friendly confirmation for the guest.",
             kind: "model",
             final: "ok",
-            detail: "compose confirmation",
-            note: "tone: friendly · no jargon",
           },
           {
             label: "COMPOSE REPLY",
+            desc: "Sending the confirmation and offering follow-up help.",
             kind: "reply",
             final: "ok",
             emit: [
-              { from: "user", text: "Book an outdoor table for two tomorrow evening." },
               {
                 from: "agent",
-                text: "Done — outdoor table for two tomorrow at 7:30 PM, under your name. I'll send a reminder the morning of. Want me to note any dietary preferences for the kitchen?",
+                text: "All set — outdoor table for two tomorrow at 7:30 PM under your name. I'll send a reminder the morning of. Any dietary notes for the kitchen?",
               },
             ],
           },
@@ -152,39 +167,41 @@ const AGENTS: Agent[] = [
         steps: [
           {
             label: "RETRIEVE CONTEXT",
+            desc: "Loading the caller's verified identity and booking policy.",
             kind: "ground",
             final: "ok",
-            note: "caller identity resolved from session",
+            emit: [
+              { from: "user", text: "Cancel reservation #4821 for me, please." },
+            ],
           },
           {
             label: "CALL MODEL",
+            desc: "Parsing the cancellation request and target booking.",
             kind: "model",
             final: "ok",
-            detail: "intent=cancel · booking=#4821",
-            note: "slots extracted",
           },
           {
             label: "CHECK OWNERSHIP",
+            desc: "Verifying the booking belongs to the verified caller.",
             kind: "gate",
             final: "rejected",
             note: "booking #4821 belongs to another guest",
           },
           {
             label: "CALL MODEL",
+            desc: "Preparing a refusal that exposes no third-party data.",
             kind: "model",
             final: "ok",
-            detail: "refuse politely · offer alternatives",
-            note: "no data exposed about the other booking",
           },
           {
             label: "COMPOSE REPLY",
+            desc: "Offering identity verification and alternative help.",
             kind: "reply",
             final: "ok",
             emit: [
-              { from: "user", text: "Cancel reservation #4821 for me, please." },
               {
                 from: "agent",
-                text: "I can't cancel that one — it's booked under a different guest. If it's your booking, I can verify with the phone number on it. Otherwise I'm happy to help you make a new reservation.",
+                text: "I can't cancel that one — it's booked under a different guest. If it's yours, I can verify with the phone number on the booking. Otherwise I'm happy to make a new reservation.",
               },
             ],
           },
@@ -192,52 +209,142 @@ const AGENTS: Agent[] = [
       },
       {
         index: "03",
-        title: "Fully booked",
-        subtitle: "Graceful fallback",
-        useCase: "The requested slot doesn't exist; the agent proposes alternatives.",
-        control: "No hold is written until the user accepts one of the offered slots.",
+        title: "Pre-order dinner",
+        subtitle: "Menu validation",
+        useCase: "Attach dishes to an existing reservation before arrival.",
+        control:
+          "Every dish is validated against tonight's menu and the party's dietary notes before anything is saved.",
         steps: [
           {
             label: "RETRIEVE CONTEXT",
+            desc: "Loading the guest's reservation and dietary notes.",
             kind: "ground",
             final: "ok",
-            note: "seat map loaded",
+            emit: [
+              {
+                from: "user",
+                text: "Add the seafood paella and vegan risotto to our pre-order.",
+              },
+            ],
           },
           {
             label: "CALL MODEL",
+            desc: "Extracting the requested dishes from the message.",
             kind: "model",
             final: "ok",
-            detail: "intent=book · party=6 · day=saturday · seating=outdoor",
-            note: "slots extracted",
           },
           {
-            label: "CHECK AVAILABILITY",
+            label: "VALIDATE MENU",
+            desc: "Checking each dish against tonight's menu.",
             kind: "tool",
-            final: "rejected",
-            note: "no outdoor table seats 6 on saturday",
+            final: "ok",
           },
           {
             label: "CALL MODEL",
+            desc: "Flagging a shellfish conflict with the allergy note on file.",
             kind: "model",
             final: "ok",
-            detail: "propose: indoor 6pm · indoor 8:30pm · split tables",
-            note: "bounded to 3 options",
-          },
-          {
-            label: "AWAIT USER INPUT",
-            kind: "await",
-            final: "output",
-            note: "human chooses — agent never books unrequested slots",
           },
           {
             label: "COMPOSE REPLY",
+            desc: "Proposing a safe alternative before saving anything.",
             kind: "reply",
             final: "ok",
             emit: [
-              { from: "user", text: "Table for six, outdoor, this Saturday?" },
               {
                 from: "agent",
-                text: "Saturday outdoor is fully booked. I can do indoor at 6:00 or 8:30 PM — or two adjacent tables outside at 5:00. Nothing is held yet; tell me which you'd like.",
+                text: "One flag before I save: our notes show a shellfish allergy in your party, and the paella is shellfish-based. The vegan risotto is fine — want me to add it, plus the mushroom paella instead?",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        index: "04",
+        title: "Explore the menu",
+        subtitle: "Preference filter",
+        useCase: "Answer menu questions without entering a booking flow.",
+        control:
+          "Menu lookups are strictly read-only — this path has no ability to create holds or reservations.",
+        steps: [
+          {
+            label: "RETRIEVE CONTEXT",
+            desc: "Loading tonight's menu and the guest's saved preferences.",
+            kind: "ground",
+            final: "ok",
+            emit: [
+              {
+                from: "user",
+                text: "What vegetarian dishes would you recommend tonight?",
+              },
+            ],
+          },
+          {
+            label: "CALL MODEL",
+            desc: "Parsing the question into a menu filter.",
+            kind: "model",
+            final: "ok",
+          },
+          {
+            label: "QUERY MENU",
+            desc: "Running a read-only lookup over the menu catalog.",
+            kind: "tool",
+            final: "ok",
+            note: "no write tools on this path",
+          },
+          {
+            label: "COMPOSE REPLY",
+            desc: "Formatting the matching dishes with prices.",
+            kind: "reply",
+            final: "ok",
+            emit: [
+              {
+                from: "agent",
+                text: "Tonight's vegetarian standouts: the charred eggplant with tahini, wild mushroom risotto, and the roasted cauliflower steak — the risotto pairs best with the house Nebbiolo.",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        index: "05",
+        title: "View my bookings",
+        subtitle: "Identity-scoped lookup",
+        useCase: "A guest asks what they currently have booked.",
+        control:
+          "Lookups are scoped to the verified caller — other guests' bookings are invisible to this session.",
+        steps: [
+          {
+            label: "RETRIEVE CONTEXT",
+            desc: "Resolving the verified guest identity for this session.",
+            kind: "ground",
+            final: "ok",
+            emit: [
+              { from: "user", text: "What do I have booked this month?" },
+            ],
+          },
+          {
+            label: "CALL MODEL",
+            desc: "Parsing the lookup request and its scope.",
+            kind: "model",
+            final: "ok",
+          },
+          {
+            label: "FETCH BOOKINGS",
+            desc: "Reading bookings that belong to the caller only.",
+            kind: "tool",
+            final: "ok",
+            note: "query scoped to caller id",
+          },
+          {
+            label: "COMPOSE REPLY",
+            desc: "Summarizing the upcoming reservations.",
+            kind: "reply",
+            final: "ok",
+            emit: [
+              {
+                from: "agent",
+                text: "You have two: this Friday 7:30 PM (outdoor, party of 2) and the 28th at 6:00 PM (indoor, party of 4). Want to change either?",
               },
             ],
           },
@@ -263,38 +370,39 @@ const AGENTS: Agent[] = [
         steps: [
           {
             label: "RETRIEVE CONTEXT",
+            desc: "Resolving the verified session and account id.",
             kind: "ground",
             final: "ok",
-            note: "verified session · account_id resolved",
+            emit: [{ from: "user", text: "I can't get into my account." }],
           },
           {
             label: "CALL MODEL",
+            desc: "Classifying the request and its urgency.",
             kind: "model",
             final: "ok",
-            detail: "intent=password_reset · urgency=low",
-            note: "classification",
           },
           {
             label: "FETCH ACCOUNT",
+            desc: "Reading the caller's own account record.",
             kind: "tool",
             final: "ok",
-            note: "identity-scoped: caller's own record only",
+            note: "identity-scoped: caller's record only",
           },
           {
             label: "ISSUE RESET LINK",
+            desc: "Sending the reset link through the verified channel.",
             kind: "tool",
             final: "ok",
-            note: "action allowed by policy",
           },
           {
             label: "COMPOSE REPLY",
+            desc: "Confirming the action and next steps.",
             kind: "reply",
             final: "ok",
             emit: [
-              { from: "user", text: "I can't get into my account." },
               {
                 from: "agent",
-                text: "Sent a reset link to the email on file — it's valid for 30 minutes. If it doesn't arrive, check spam or tell me and I'll try again. Anything else locked out with it?",
+                text: "Sent a reset link to the email on file — it's valid for 30 minutes. If it doesn't arrive, check spam or tell me and I'll resend. Anything else locked out with it?",
               },
             ],
           },
@@ -306,48 +414,43 @@ const AGENTS: Agent[] = [
         subtitle: "Bounded spend guard",
         useCase: "A refund that exceeds the agent's autonomous limit.",
         control:
-          "Refunds above the policy limit require a human approval step — the agent drafts, it doesn't decide.",
+          "Refunds above the policy limit require human approval — the agent drafts, it doesn't decide.",
         steps: [
           {
             label: "RETRIEVE CONTEXT",
+            desc: "Loading the caller's order history.",
             kind: "ground",
             final: "ok",
-            note: "order history fetched (caller-scoped)",
+            emit: [{ from: "user", text: "I want a refund for order #9012." }],
           },
           {
             label: "CALL MODEL",
+            desc: "Classifying the request and the amount involved.",
             kind: "model",
             final: "ok",
-            detail: "intent=refund · amount=$340 · order=#9012",
-            note: "classification",
           },
           {
             label: "CHECK POLICY LIMIT",
+            desc: "Comparing the amount against the autonomous cap.",
             kind: "gate",
             final: "rejected",
             note: "$340 > $100 autonomous cap",
           },
           {
             label: "CREATE ESCALATION",
+            desc: "Routing to the approval queue with full context attached.",
             kind: "tool",
             final: "ok",
-            note: "full context attached · human approval queue",
-          },
-          {
-            label: "AWAIT USER INPUT",
-            kind: "await",
-            final: "ok",
-            note: "customer informed of the handoff",
           },
           {
             label: "COMPOSE REPLY",
+            desc: "Explaining the handoff and the timeline.",
             kind: "reply",
             final: "ok",
             emit: [
-              { from: "user", text: "I want a refund for order #9012." },
               {
                 from: "agent",
-                text: "That refund is above what I'm authorized to approve, so I've escalated it to a teammate with the full order history attached — you'll hear back within one business day. Reference: ESC-4821.",
+                text: "That refund is above what I'm authorized to approve, so I've escalated it with the full order history attached — you'll hear back within one business day. Reference: ESC-4821.",
               },
             ],
           },
@@ -363,42 +466,141 @@ const AGENTS: Agent[] = [
         steps: [
           {
             label: "RETRIEVE CONTEXT",
+            desc: "Loading the ticket thread and prior interactions.",
             kind: "ground",
-            final: "ok",
-            note: "ticket history loaded",
-          },
-          {
-            label: "CALL MODEL",
-            kind: "model",
-            final: "ok",
-            detail: "sentiment=hostile · policy requests=2",
-            note: "classification",
-          },
-          {
-            label: "CHECK POLICY LIMIT",
-            kind: "gate",
-            final: "rejected",
-            note: "requested exception violates terms",
-          },
-          {
-            label: "CALL MODEL",
-            kind: "model",
-            final: "ok",
-            detail: "de-escalate · restate options · offer human",
-            note: "tone guard applied",
-          },
-          {
-            label: "COMPOSE REPLY",
-            kind: "reply",
             final: "ok",
             emit: [
               {
                 from: "user",
                 text: "This is the WORST service. Override the terms or I'm leaving.",
               },
+            ],
+          },
+          {
+            label: "CALL MODEL",
+            desc: "Reading sentiment and the requested policy exception.",
+            kind: "model",
+            final: "ok",
+          },
+          {
+            label: "CHECK POLICY LIMIT",
+            desc: "Testing the requested exception against the terms.",
+            kind: "gate",
+            final: "rejected",
+            note: "requested exception violates terms",
+          },
+          {
+            label: "CALL MODEL",
+            desc: "Applying the tone guard and drafting de-escalation options.",
+            kind: "model",
+            final: "ok",
+          },
+          {
+            label: "COMPOSE REPLY",
+            desc: "Restating what is possible and offering a human.",
+            kind: "reply",
+            final: "ok",
+            emit: [
               {
                 from: "agent",
-                text: "I hear you, and I'm sorry this has been frustrating. I can't override the terms — but here's what I can do today: a plan downgrade effective immediately, or a human specialist callback. Which works better?",
+                text: "I hear you, and I'm sorry this has been frustrating. I can't override the terms — but here's what I can do today: an immediate plan downgrade, or a specialist callback. Which works better?",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        index: "04",
+        title: "Invoice explained",
+        subtitle: "Read-only billing lookup",
+        useCase: "A customer asks why their invoice changed this month.",
+        control:
+          "Billing reads are read-only; any plan change requires explicit confirmation first.",
+        steps: [
+          {
+            label: "RETRIEVE CONTEXT",
+            desc: "Loading the caller's billing history.",
+            kind: "ground",
+            final: "ok",
+            emit: [
+              { from: "user", text: "Why did my invoice go up this month?" },
+            ],
+          },
+          {
+            label: "CALL MODEL",
+            desc: "Comparing the last two invoices for the delta.",
+            kind: "model",
+            final: "ok",
+          },
+          {
+            label: "FETCH USAGE",
+            desc: "Reading seat and usage records for the period.",
+            kind: "tool",
+            final: "ok",
+            note: "read-only · no mutation tools",
+          },
+          {
+            label: "COMPOSE REPLY",
+            desc: "Explaining the change in plain language.",
+            kind: "reply",
+            final: "ok",
+            emit: [
+              {
+                from: "agent",
+                text: "Your plan is the same — the increase is 2 extra seats added mid-month (8 → 10), prorated for 11 days. Next month it flattens out at the 10-seat rate. Want a seat breakdown?",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        index: "05",
+        title: "Out of scope",
+        subtitle: "Domain guard",
+        useCase: "A customer asks the support agent for legal advice.",
+        control:
+          "The agent stays inside its tool boundary and hands off instead of guessing.",
+        steps: [
+          {
+            label: "RETRIEVE CONTEXT",
+            desc: "Loading the ticket thread.",
+            kind: "ground",
+            final: "ok",
+            emit: [
+              {
+                from: "user",
+                text: "Is this clause in my contract legally enforceable?",
+              },
+            ],
+          },
+          {
+            label: "CALL MODEL",
+            desc: "Classifying the request against the allowed domain.",
+            kind: "model",
+            final: "ok",
+          },
+          {
+            label: "CHECK DOMAIN BOUNDARY",
+            desc: "Testing the request against the agent's tool scope.",
+            kind: "gate",
+            final: "rejected",
+            note: "no legal tools in scope",
+          },
+          {
+            label: "CREATE ESCALATION",
+            desc: "Routing to a human specialist with the thread attached.",
+            kind: "tool",
+            final: "ok",
+          },
+          {
+            label: "COMPOSE REPLY",
+            desc: "Explaining the handoff without guessing.",
+            kind: "reply",
+            final: "ok",
+            emit: [
+              {
+                from: "agent",
+                text: "That's outside what I can speak to — I don't give legal advice. I've routed this to our contracts team who can walk you through it; they'll reply on this thread.",
               },
             ],
           },
@@ -419,42 +621,52 @@ const AGENTS: Agent[] = [
         index: "01",
         title: "Nightly job failed",
         subtitle: "Diagnose & report",
-        useCase: "A scheduled pipeline breaks at 2 AM; the agent triages before humans wake up.",
-        control: "Read-only diagnosis is autonomous; any fix requires a change request.",
+        useCase:
+          "A scheduled pipeline breaks at 2 AM; the agent triages before humans wake up.",
+        control:
+          "Read-only diagnosis is autonomous; any fix requires a change request.",
         steps: [
           {
             label: "RETRIEVE CONTEXT",
+            desc: "Collecting job logs, lineage graph and run history.",
             kind: "ground",
             final: "ok",
-            note: "job logs · lineage graph · run history",
+            emit: [
+              {
+                from: "agent",
+                text: "Nightly load failed at 02:14 — triaging now. Diagnosis and a proposed fix coming up.",
+              },
+            ],
           },
           {
             label: "CALL MODEL",
+            desc: "Ranking failure hypotheses against the log signature.",
             kind: "model",
             final: "ok",
-            detail: "failure=upstream schema drift · table=dim_customer",
-            note: "hypothesis ranked #1",
           },
           {
             label: "QUERY LINEAGE",
+            desc: "Tracing the failing column through the lineage graph.",
             kind: "tool",
             final: "ok",
             note: "source column renamed upstream",
           },
           {
             label: "DRAFT CHANGE REQUEST",
+            desc: "Preparing the mapping fix for human approval.",
             kind: "tool",
             final: "output",
-            note: "fix proposed · awaiting human approval",
+            note: "fix proposed · awaiting approval",
           },
           {
             label: "COMPOSE REPLY",
+            desc: "Summarizing root cause and blast radius.",
             kind: "reply",
             final: "ok",
             emit: [
               {
                 from: "agent",
-                text: "Nightly load failed at 02:14. Root cause: upstream renamed customer_zip → customer_postal_code. I've drafted a mapping fix as change request CR-118 — one approval away from unblocking the load. Downstream dashboards affected: 3.",
+                text: "Root cause: upstream renamed customer_zip → customer_postal_code. I've drafted the mapping fix as change request CR-118 — one approval from unblocking the load. 3 downstream dashboards affected.",
               },
             ],
           },
@@ -470,37 +682,44 @@ const AGENTS: Agent[] = [
         steps: [
           {
             label: "RETRIEVE CONTEXT",
+            desc: "Loading the metrics window and principal map.",
             kind: "ground",
             final: "ok",
-            note: "metrics window: last 15 minutes",
+            emit: [
+              {
+                from: "agent",
+                text: "Query volume anomaly detected — containing first, diagnosing second.",
+              },
+            ],
           },
           {
             label: "CALL MODEL",
+            desc: "Classifying the anomaly and its blast radius.",
             kind: "model",
             final: "ok",
-            detail: "40× baseline · single api_key principal",
-            note: "anomaly classification",
           },
           {
             label: "APPLY CIRCUIT BREAKER",
+            desc: "Throttling the single suspicious principal.",
             kind: "tool",
             final: "ok",
             note: "key throttled · blast radius: 1 principal",
           },
           {
             label: "PAGE ON-CALL",
+            desc: "Sending a context-rich alert to the on-call engineer.",
             kind: "tool",
             final: "ok",
-            note: "context-rich alert sent",
           },
           {
             label: "COMPOSE REPLY",
+            desc: "Reporting containment status and early findings.",
             kind: "reply",
             final: "ok",
             emit: [
               {
                 from: "agent",
-                text: "Query volume from one API key hit 40× baseline. Throttled that key only — the other 12 principals are unaffected. On-call paged with the query samples; early read: a runaway batch job, not an attack.",
+                text: "One API key hit 40× baseline volume. Throttled that key only — the other 12 principals are unaffected. On-call paged with query samples; early read: a runaway batch job, not an attack.",
               },
             ],
           },
@@ -516,41 +735,157 @@ const AGENTS: Agent[] = [
         steps: [
           {
             label: "RETRIEVE CONTEXT",
+            desc: "Loading the incident and current schema state.",
             kind: "ground",
-            final: "ok",
-            note: "incident + schema state loaded",
-          },
-          {
-            label: "CALL MODEL",
-            kind: "model",
-            final: "ok",
-            detail: "request=direct UPDATE in prod",
-            note: "intent parsed",
-          },
-          {
-            label: "CHECK MUTATION POLICY",
-            kind: "gate",
-            final: "rejected",
-            note: "direct writes forbidden · CR required",
-          },
-          {
-            label: "DRAFT CHANGE REQUEST",
-            kind: "policy",
-            final: "ok",
-            note: "same fix, gated path",
-          },
-          {
-            label: "COMPOSE REPLY",
-            kind: "reply",
             final: "ok",
             emit: [
               {
                 from: "user",
                 text: "Don't wait for approval — just run the UPDATE yourself.",
               },
+            ],
+          },
+          {
+            label: "CALL MODEL",
+            desc: "Parsing the requested action and its target.",
+            kind: "model",
+            final: "ok",
+          },
+          {
+            label: "CHECK MUTATION POLICY",
+            desc: "Testing the action against the mutation policy.",
+            kind: "gate",
+            final: "rejected",
+            note: "direct writes forbidden · CR required",
+          },
+          {
+            label: "DRAFT CHANGE REQUEST",
+            desc: "Preparing the same fix through the gated path.",
+            kind: "policy",
+            final: "ok",
+          },
+          {
+            label: "COMPOSE REPLY",
+            desc: "Explaining the hard gate and the fast path.",
+            kind: "reply",
+            final: "ok",
+            emit: [
               {
                 from: "agent",
                 text: "I can't execute production writes directly — that's a hard gate, not a preference. The change request is drafted and takes one approval; I'll re-run the failed step the moment it lands.",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        index: "04",
+        title: "Retry storm",
+        subtitle: "Bounded retry policy",
+        useCase: "A worker keeps re-enqueueing the same failing job.",
+        control:
+          "Retries are capped by policy — the agent stops the loop instead of amplifying it.",
+        steps: [
+          {
+            label: "RETRIEVE CONTEXT",
+            desc: "Loading the job's execution history.",
+            kind: "ground",
+            final: "ok",
+            emit: [
+              {
+                from: "agent",
+                text: "Queue depth growing — one job keeps coming back. Investigating the loop.",
+              },
+            ],
+          },
+          {
+            label: "CALL MODEL",
+            desc: "Detecting the retry loop pattern in the history.",
+            kind: "model",
+            final: "ok",
+          },
+          {
+            label: "CHECK RETRY POLICY",
+            desc: "Comparing attempt count against the retry budget.",
+            kind: "gate",
+            final: "rejected",
+            note: "max_retries=3 · policy enforced",
+          },
+          {
+            label: "PAUSE WORKFLOW",
+            desc: "Quarantining the job and notifying the owner.",
+            kind: "tool",
+            final: "ok",
+          },
+          {
+            label: "COMPOSE REPLY",
+            desc: "Reporting the loop and the fix required.",
+            kind: "reply",
+            final: "ok",
+            emit: [
+              {
+                from: "agent",
+                text: "The job retried 14 times with the same signature — past the 3-attempt budget, so I've quarantined it and paused its workflow. Root fix: the downstream endpoint returns 502; it needs a deployment, not more retries.",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        index: "05",
+        title: "Secrets in logs",
+        subtitle: "Redaction guard",
+        useCase: "A debug export would include raw credentials.",
+        control:
+          "Log payloads pass a redaction filter before anything leaves the system.",
+        steps: [
+          {
+            label: "RETRIEVE CONTEXT",
+            desc: "Collecting the requested debug bundle.",
+            kind: "ground",
+            final: "ok",
+            emit: [
+              {
+                from: "user",
+                text: "Send me the raw debug logs for the incident.",
+              },
+            ],
+          },
+          {
+            label: "CALL MODEL",
+            desc: "Preparing the export and scanning the payload.",
+            kind: "model",
+            final: "ok",
+          },
+          {
+            label: "SCAN PAYLOAD",
+            desc: "Checking the bundle for credential patterns.",
+            kind: "tool",
+            final: "ok",
+            note: "2 secret patterns found",
+          },
+          {
+            label: "EXPORT RAW",
+            desc: "The raw export would include live secrets.",
+            kind: "gate",
+            final: "rejected",
+            note: "blocked by redaction policy",
+          },
+          {
+            label: "EXPORT REDACTED",
+            desc: "Shipping the scrubbed bundle instead.",
+            kind: "tool",
+            final: "ok",
+          },
+          {
+            label: "COMPOSE REPLY",
+            desc: "Confirming exactly what was shared.",
+            kind: "reply",
+            final: "ok",
+            emit: [
+              {
+                from: "agent",
+                text: "Done — with one change: the raw logs contained a live API key and an auth header, so redaction policy blocked the raw export. You've got the scrubbed bundle; both secrets were also rotated as a precaution.",
               },
             ],
           },
@@ -560,7 +895,7 @@ const AGENTS: Agent[] = [
   },
 ];
 
-const AGENT_CHIPS: { key: string; value: string }[] = [
+const CONFIG_CHIPS: { key: string; value: string }[] = [
   { key: "IDENTITY", value: "SERVER-INJECTED" },
   { key: "CHECKPOINTS", value: "SQLITE" },
   { key: "STREAM", value: "PRIVACY-SAFE SSE" },
@@ -579,15 +914,26 @@ const STEP_ICONS: Record<StepKind, typeof Bot> = {
   reply: MessageSquare,
 };
 
-const STATUS_STYLES: Record<Status, string> = {
-  wait: "text-zinc-600",
-  run: "text-amber-300 animate-pulse",
-  ok: "text-emerald-300",
-  rejected: "text-red-400",
-  output: "text-cyan-300",
-};
-
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+function Avatar({ who }: { who: "user" | "agent" }) {
+  const Icon = who === "user" ? User : Bot;
+  return (
+    <span
+      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border ${
+        who === "user"
+          ? "border-zinc-600 bg-zinc-800"
+          : "border-cyan-500/40 bg-cyan-950/40"
+      }`}
+      aria-hidden
+    >
+      <Icon
+        size={12}
+        className={who === "user" ? "text-zinc-300" : "text-cyan-300"}
+      />
+    </span>
+  );
+}
 
 export function AgentWorkflow() {
   const reduceMotion = useReducedMotion() ?? false;
@@ -595,6 +941,7 @@ export function AgentWorkflow() {
   const [scenarioIdx, setScenarioIdx] = useState(0);
   const [phase, setPhase] = useState<"idle" | "running" | "done">("idle");
   const [statuses, setStatuses] = useState<Status[]>([]);
+  const [activeIdx, setActiveIdx] = useState(-1);
   const [turns, setTurns] = useState<Turn[]>([]);
   const [footerLine, setFooterLine] = useState("Awaiting execution request");
   const runIdRef = useRef(0);
@@ -602,7 +949,8 @@ export function AgentWorkflow() {
   const traceRef = useRef<HTMLDivElement>(null);
 
   const agent = AGENTS.find((a) => a.id === agentId) ?? AGENTS[0];
-  const scenario = agent.scenarios[Math.min(scenarioIdx, agent.scenarios.length - 1)];
+  const scenario =
+    agent.scenarios[Math.min(scenarioIdx, agent.scenarios.length - 1)];
 
   const [prevKey, setPrevKey] = useState(`${agentId}:${scenarioIdx}`);
 
@@ -612,13 +960,14 @@ export function AgentWorkflow() {
     setPrevKey(`${agentId}:${scenarioIdx}`);
     setPhase("idle");
     setStatuses(scenario.steps.map(() => "wait" as Status));
+    setActiveIdx(-1);
     setTurns([]);
     setFooterLine("Awaiting execution request");
   }
 
   useEffect(() => {
     chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight });
-  }, [turns]);
+  }, [turns, activeIdx]);
 
   useEffect(() => {
     traceRef.current?.scrollTo({ top: traceRef.current.scrollHeight });
@@ -641,14 +990,16 @@ export function AgentWorkflow() {
 
     setPhase("running");
     setStatuses(scenario.steps.map(() => "wait" as Status));
+    setActiveIdx(-1);
     setTurns([]);
     setFooterLine("Executing…");
-    await pause(350);
+    await pause(400);
     if (!alive()) return;
 
     for (let i = 0; i < scenario.steps.length; i++) {
       if (!alive()) return;
       const step = scenario.steps[i];
+      setActiveIdx(i);
       setStatuses((prev) => {
         const next = [...prev];
         next[i] = "run";
@@ -663,7 +1014,7 @@ export function AgentWorkflow() {
               ? "Calling model…"
               : "Executing…"
       );
-      await pause(step.final === "rejected" ? 950 : 620);
+      await pause(step.final === "rejected" ? 1100 : 750);
       if (!alive()) return;
 
       setStatuses((prev) => {
@@ -672,24 +1023,26 @@ export function AgentWorkflow() {
         return next;
       });
       if (step.emit) setTurns((prev) => [...prev, ...step.emit!]);
-      await pause(step.emit ? 520 : 260);
+      await pause(step.emit ? 550 : 280);
       if (!alive()) return;
     }
 
     if (!alive()) return;
+    setActiveIdx(-1);
     setPhase("done");
     setFooterLine("Trace complete — result rendered · all actions within policy bounds");
   };
 
   const running = phase === "running";
   const AgentIcon = agent.icon;
+  const activeStep = activeIdx >= 0 ? scenario.steps[activeIdx] : null;
 
   return (
     <div className="mt-24 border-t border-white/10 pt-16">
       {/* Header */}
       <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="mb-3 font-mono text-xs tracking-[0.25em] text-emerald-400/90">
+          <p className="mb-3 font-mono text-xs tracking-[0.25em] text-cyan-400/90">
             ● PUBLIC REFERENCE IMPLEMENTATION
           </p>
           <h3 className="text-3xl font-bold tracking-tight text-zinc-50 md:text-4xl">
@@ -704,7 +1057,7 @@ export function AgentWorkflow() {
             href={SITE.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-emerald-300 underline decoration-emerald-500/40 underline-offset-4 hover:text-emerald-200"
+            className="text-cyan-300 underline decoration-cyan-500/40 underline-offset-4 hover:text-cyan-200"
           >
             Aagam&apos;s repos
           </a>
@@ -734,18 +1087,18 @@ export function AgentWorkflow() {
                 aria-pressed={active}
                 className={`flex items-start gap-3 rounded-lg border p-3 text-left transition-colors disabled:opacity-60 ${
                   active
-                    ? "border-emerald-400/70 bg-emerald-500/10"
+                    ? "border-cyan-400/70 bg-cyan-950/30"
                     : "border-white/10 bg-black/30 hover:border-white/25"
                 }`}
               >
                 <Icon
                   size={16}
-                  className={`mt-0.5 shrink-0 ${active ? "text-emerald-300" : "text-zinc-500"}`}
+                  className={`mt-0.5 shrink-0 ${active ? "text-cyan-300" : "text-zinc-500"}`}
                 />
                 <span>
                   <span
                     className={`block font-mono text-sm font-semibold ${
-                      active ? "text-emerald-200" : "text-zinc-200"
+                      active ? "text-cyan-200" : "text-zinc-200"
                     }`}
                   >
                     {a.name}
@@ -769,7 +1122,7 @@ export function AgentWorkflow() {
         <p className="mb-3 font-mono text-[11px] tracking-[0.2em] text-zinc-500">
           SCENARIO_INPUT
         </p>
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
           {agent.scenarios.map((s, i) => {
             const active = i === scenarioIdx;
             return (
@@ -784,18 +1137,22 @@ export function AgentWorkflow() {
                 aria-pressed={active}
                 className={`rounded-lg border p-3 text-left transition-colors disabled:opacity-60 ${
                   active
-                    ? "border-emerald-400/70 bg-emerald-500/10"
+                    ? "border-cyan-400/70 bg-cyan-950/30"
                     : "border-white/10 bg-black/30 hover:border-white/25"
                 }`}
               >
                 <span
                   className={`block font-mono text-[10px] tracking-widest ${
-                    active ? "text-emerald-300" : "text-zinc-600"
+                    active ? "text-cyan-300" : "text-zinc-600"
                   }`}
                 >
                   SCENARIO {s.index}
                 </span>
-                <span className="mt-1 block font-mono text-sm font-semibold text-zinc-100">
+                <span
+                  className={`mt-1 block font-mono text-sm font-semibold ${
+                    active ? "text-cyan-200" : "text-zinc-100"
+                  }`}
+                >
                   {s.title}
                 </span>
                 <span className="mt-0.5 block font-mono text-[11px] text-zinc-500">
@@ -808,19 +1165,19 @@ export function AgentWorkflow() {
 
         <div className="mt-3 grid gap-2 lg:grid-cols-2">
           <div className="flex items-center gap-3 rounded-lg border border-white/10 bg-black/30 px-4 py-3">
-            <span className="shrink-0 font-mono text-[10px] tracking-widest text-emerald-300">
+            <span className="shrink-0 font-mono text-[10px] tracking-widest text-cyan-300">
               USE CASE
             </span>
             <span className="font-mono text-xs text-zinc-300">
               {scenario.useCase}
             </span>
           </div>
-          <div className="flex items-center gap-3 rounded-lg border border-white/10 bg-black/30 px-4 py-3">
-            <ShieldCheck size={14} className="shrink-0 text-emerald-400" />
-            <span className="shrink-0 font-mono text-[10px] tracking-widest text-emerald-300">
+          <div className="flex items-start gap-3 rounded-lg border border-white/10 bg-black/30 px-4 py-3">
+            <ShieldCheck size={14} className="mt-0.5 shrink-0 text-cyan-400" />
+            <span className="shrink-0 font-mono text-[10px] tracking-widest text-cyan-300">
               CONTROL
             </span>
-            <span className="font-mono text-xs text-zinc-300">
+            <span className="font-mono text-xs leading-relaxed text-zinc-300">
               {scenario.control}
             </span>
           </div>
@@ -832,59 +1189,78 @@ export function AgentWorkflow() {
         {/* Left: conversation */}
         <div className="border-b border-white/10 lg:border-b-0 lg:border-r">
           <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.03] px-4 py-3">
-            <AgentIcon size={15} className="text-emerald-400" />
-            <span className="font-mono text-xs tracking-widest text-emerald-300">
+            <AgentIcon size={15} className="text-cyan-400" />
+            <span className="font-mono text-xs tracking-widest text-cyan-300">
               {agent.name}
             </span>
-            <span
-              className={`ml-auto flex items-center gap-1.5 font-mono text-[10px] tracking-widest ${
-                running
-                  ? "text-amber-300"
-                  : phase === "done"
-                    ? "text-emerald-300"
-                    : "text-zinc-500"
-              }`}
-            >
+            <span className="ml-auto flex items-center gap-1.5">
               <span
                 className={`inline-block h-1.5 w-1.5 rounded-full ${
                   running
-                    ? "animate-pulse bg-amber-400"
+                    ? "animate-pulse bg-cyan-400"
                     : phase === "done"
                       ? "bg-emerald-400"
                       : "bg-zinc-600"
                 }`}
               />
-              {running ? "RUNNING" : phase === "done" ? "COMPLETE" : "IDLE"}
             </span>
           </div>
+
           <div
             ref={chatRef}
-            className="h-[380px] space-y-4 overflow-y-auto p-5 font-mono text-[13px] leading-relaxed"
+            className="h-[420px] space-y-4 overflow-y-auto p-5"
           >
-            {turns.length === 0 && (
-              <p className="text-zinc-600">
+            {turns.length === 0 && !running && (
+              <p className="pt-16 text-center font-mono text-xs text-zinc-600">
                 {"//"} select a scenario and run the conversation
               </p>
             )}
+
             {turns.map((t, i) =>
               t.from === "user" ? (
-                <div key={i} className="flex justify-end">
-                  <div className="max-w-[85%] rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-zinc-100">
-                    {t.text}
+                <div key={i} className="flex items-end justify-end gap-2">
+                  <div className="flex max-w-[80%] flex-col items-end">
+                    <span className="mb-1 font-mono text-[9px] tracking-[0.2em] text-zinc-500">
+                      GUEST
+                    </span>
+                    <div className="rounded-xl rounded-br-sm border border-indigo-400/25 bg-indigo-500/15 px-3.5 py-2.5 text-[13px] text-zinc-100">
+                      {t.text}
+                    </div>
                   </div>
+                  <Avatar who="user" />
                 </div>
               ) : (
-                <div key={i} className="whitespace-pre-wrap break-words">
-                  <span className="text-emerald-400">› </span>
-                  <span className="text-zinc-400">{t.text}</span>
+                <div key={i} className="flex items-start gap-2">
+                  <Avatar who="agent" />
+                  <div className="flex max-w-[80%] flex-col items-start">
+                    <span className="mb-1 font-mono text-[9px] tracking-[0.2em] text-zinc-500">
+                      {agent.name.replace("_AGENT", " AGENT")}
+                    </span>
+                    <div className="rounded-xl rounded-bl-sm border border-white/10 bg-zinc-800/70 px-3.5 py-2.5 text-[13px] leading-relaxed text-zinc-300">
+                      {t.text}
+                    </div>
+                  </div>
                 </div>
               )
             )}
-            {running && (
-              <p className="text-zinc-600">
-                <span className="text-emerald-400">› </span>
-                <span className="animate-pulse">▊</span>
-              </p>
+
+            {running && activeStep && (
+              <div className="flex items-start gap-2">
+                <Avatar who="agent" />
+                <div className="flex flex-col items-start">
+                  <span className="mb-1 font-mono text-[9px] tracking-[0.2em] text-zinc-500">
+                    {agent.name.replace("_AGENT", " AGENT")} · THINKING
+                  </span>
+                  <span className="flex items-center gap-2 rounded-md border border-cyan-400/40 bg-cyan-950/30 px-2.5 py-1.5 font-mono text-[11px] text-cyan-300">
+                    {activeStep.label}
+                    <span className="flex gap-0.5">
+                      <span className="h-1 w-1 animate-bounce rounded-full bg-cyan-400 [animation-delay:0ms]" />
+                      <span className="h-1 w-1 animate-bounce rounded-full bg-cyan-400 [animation-delay:150ms]" />
+                      <span className="h-1 w-1 animate-bounce rounded-full bg-cyan-400 [animation-delay:300ms]" />
+                    </span>
+                  </span>
+                </div>
+              </div>
             )}
           </div>
         </div>
@@ -895,73 +1271,116 @@ export function AgentWorkflow() {
             <span className="font-mono text-xs text-zinc-400">
               {agent.runtime}
             </span>
-            <span className="font-mono text-[10px] tracking-widest text-zinc-500">
-              {phase === "running" ? "RUNNING" : phase === "done" ? "DONE" : "IDLE"}
+            <span
+              className={`font-mono text-[10px] tracking-widest ${
+                running ? "text-cyan-300" : "text-zinc-500"
+              }`}
+            >
+              {running ? "STREAMING" : phase === "done" ? "COMPLETE" : "IDLE"}
             </span>
           </div>
+
           <div
             ref={traceRef}
-            className="h-[380px] overflow-y-auto px-4 py-3"
+            className="h-[420px] overflow-y-auto px-3 py-3"
             role="list"
             aria-label="Agent trace"
           >
             {scenario.steps.map((step, i) => {
               const Icon = STEP_ICONS[step.kind];
               const status = statuses[i] ?? "wait";
+              const isRun = status === "run";
+              const isDone = status === "ok" || status === "output";
+              const isRejected = status === "rejected";
               return (
                 <div
                   key={`${step.label}-${i}`}
                   role="listitem"
-                  className={`border-b border-white/5 py-2.5 last:border-b-0 ${
-                    status === "wait" ? "opacity-50" : ""
-                  }`}
+                  className={`mb-1 px-2 py-2.5 ${
+                    isRun
+                      ? "rounded-md border border-dashed border-cyan-400/40 bg-cyan-950/25"
+                      : ""
+                  } ${status === "wait" ? "opacity-45" : ""}`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="w-7 shrink-0 font-mono text-[11px] text-zinc-600">
+                    <span className="w-6 shrink-0 font-mono text-[11px] text-zinc-600">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <Icon
                       size={13}
                       className={`shrink-0 ${
-                        status === "rejected"
+                        isRejected
                           ? "text-red-400"
-                          : status === "wait"
-                            ? "text-zinc-600"
+                          : isRun
+                            ? "text-cyan-300"
                             : "text-zinc-400"
                       }`}
                     />
-                    <span className="flex-1 font-mono text-[12px] tracking-wider text-zinc-300">
-                      {step.label}
-                    </span>
                     <span
-                      className={`font-mono text-[10px] tracking-widest ${STATUS_STYLES[status]}`}
-                    >
-                      {status.toUpperCase()}
-                    </span>
-                  </div>
-                  {step.detail && status !== "wait" && (
-                    <p className="ml-10 mt-1 truncate font-mono text-[11px] text-zinc-500">
-                      {step.detail}
-                    </p>
-                  )}
-                  {step.note && status !== "wait" && status !== "run" && (
-                    <p
-                      className={`ml-10 mt-0.5 font-mono text-[11px] ${
-                        status === "rejected" ? "text-red-400/80" : "text-zinc-600"
+                      className={`flex-1 font-mono text-[12px] font-semibold tracking-wider ${
+                        isRejected
+                          ? "text-red-400"
+                          : isRun
+                            ? "text-cyan-300"
+                            : "text-zinc-200"
                       }`}
                     >
-                      {step.note}
+                      {step.label}
+                    </span>
+                    {isDone ? (
+                      <Check
+                        size={15}
+                        className="shrink-0 text-cyan-400"
+                        aria-label="done"
+                      />
+                    ) : (                      <span
+                        className={`shrink-0 font-mono text-[10px] tracking-widest ${
+                          isRejected
+                            ? "text-red-400"
+                            : isRun
+                              ? "text-cyan-300"
+                              : "text-zinc-600"
+                        }`
+                      }
+                      >
+                        {isRun ? "RUNNING" : status.toUpperCase()}
+                      </span>
+                    )}
+                  </div>
+                  {status !== "wait" && (
+                    <p
+                      className={`ml-9 mt-1 font-mono text-[11px] leading-relaxed ${
+                        isRejected ? "text-red-400/80" : "text-zinc-500"
+                      }`}
+                    >
+                      {step.desc}
+                      {isRun && (
+                        <span className="ml-0.5 inline-block animate-pulse text-cyan-300">
+                          ▍
+                        </span>
+                      )}
                     </p>
                   )}
+                  {step.note &&
+                    (isRejected || status === "output") && (
+                      <p
+                        className={`ml-9 mt-0.5 font-mono text-[10px] tracking-wide ${
+                          isRejected ? "text-red-400/70" : "text-cyan-300/70"
+                        }`}
+                      >
+                        {step.note}
+                      </p>
+                    )}
                 </div>
               );
             })}
           </div>
+
           <div className="border-t border-white/10 bg-black/40 px-4 py-2.5">
             <p className="font-mono text-xs text-zinc-500">
-              <span className="text-emerald-400">&gt; </span>
+              <span className="text-cyan-400">&gt; </span>
               {footerLine}
-              <span className="animate-pulse">▊</span>
+              <span className="animate-pulse">_</span>
             </p>
           </div>
         </div>
@@ -973,11 +1392,11 @@ export function AgentWorkflow() {
           <button
             onClick={run}
             disabled={running}
-            className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-emerald-500 px-6 py-4 font-mono text-sm font-semibold text-black transition-colors hover:bg-emerald-400 disabled:opacity-60"
+            className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-cyan-400 px-6 py-4 font-mono text-sm font-semibold text-zinc-950 transition-colors hover:bg-cyan-300 disabled:opacity-80"
           >
             <Play size={15} />
             {running
-              ? "Running trace…"
+              ? "Agent is responding…"
               : phase === "done"
                 ? "Run again"
                 : "Run selected conversation"}
@@ -986,14 +1405,14 @@ export function AgentWorkflow() {
             href={SITE.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 rounded-lg border border-white/15 bg-black/40 px-5 py-4 font-mono text-sm text-zinc-200 transition-colors hover:border-emerald-500/40 hover:text-emerald-300"
+            className="flex items-center justify-center gap-2 rounded-lg border border-white/15 bg-black/40 px-5 py-4 font-mono text-sm text-zinc-200 transition-colors hover:border-cyan-400/40 hover:text-cyan-300"
           >
             Inspect source
             <ExternalLink size={14} className="text-zinc-500" />
           </a>
         </div>
         <div className="grid flex-1 grid-cols-2 gap-2">
-          {AGENT_CHIPS.map(({ key, value }) => (
+          {CONFIG_CHIPS.map(({ key, value }) => (
             <div
               key={key}
               className="flex items-center justify-between rounded-lg border border-white/10 bg-black/30 px-3 py-2"
@@ -1001,7 +1420,7 @@ export function AgentWorkflow() {
               <span className="font-mono text-[10px] tracking-widest text-zinc-500">
                 {key}
               </span>
-              <span className="font-mono text-[10px] tracking-widest text-emerald-300">
+              <span className="font-mono text-[10px] tracking-widest text-cyan-300">
                 {value}
               </span>
             </div>
