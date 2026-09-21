@@ -249,6 +249,101 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
     ],
   },
 
+  "stream-table-olap-engine": {
+    path: "~/asheth2310/stream-table-olap-engine",
+    kind: "STREAMING",
+    period: "JUL 2026",
+    role: "Solo engineer — end-to-end",
+    summary:
+      "Sub-second stream-table join and OLAP engine — high-volume ingestion, SIMD-accelerated joins, and interactive analytical queries.",
+    stat: {
+      value: "100K+/SEC",
+      label: "event ingestion with sub-50ms analytical queries (README)",
+    },
+    project:
+      "Real-time analytics usually forces a choice: fast ingestion or fast queries. This engine refuses the trade-off. It ingests 100K+ events per second from a Redpanda stream, joins the stream against dimension tables using SIMD-accelerated Apache Arrow, and serves sub-50ms analytical queries to an interactive dashboard — one pipeline from event to insight.",
+    architecture: [
+      "Redpanda Ingestion",
+      "Stream Pipeline",
+      "Arrow Join Engine",
+      "OLAP Query Layer",
+      "API Server",
+      "Dashboard",
+    ],
+    keyDecisions: [
+      "Join streams to dimension tables in memory on Apache Arrow — SIMD columnar ops instead of row-by-row lookups.",
+      "Run in degraded mode without the broker: the engine works locally with zero infrastructure.",
+      "Serve queries from the same process that ingests, keeping p50 latency in milliseconds.",
+    ],
+    decisions: [
+      "Pair the pipeline with an interactive dashboard so every metric is one click from its query.",
+      "Keep the whole stack Python — one language from kernel to UI.",
+    ],
+    tradeoffs: [
+      "In-memory joins trade bounded memory use for predictable latency.",
+      "A single-node design favors simplicity and demo-ability over horizontal scale.",
+    ],
+    outcomes: [
+      "Events become queryable in milliseconds — dashboards reflect reality, not the last batch job.",
+      "The architecture maps directly to production stream-processing patterns (Kafka/Flink-style) at MVP scale.",
+    ],
+    stack: [
+      "Python",
+      "Apache Arrow",
+      "Redpanda",
+      "OLAP",
+      "FastAPI",
+      "Dashboard",
+    ],
+  },
+
+  "data-quality-observability-engine": {
+    path: "~/asheth2310/data-quality-observability-engine",
+    kind: "DATA QUALITY",
+    period: "JUL 2026",
+    role: "Solo engineer — end-to-end",
+    summary:
+      "Production-grade quality and observability engine with a live dashboard — drift detection, auto-healing, anomalies, and lineage-driven impact analysis.",
+    stat: {
+      value: "LIVE",
+      label: "deployed dashboard (vercel) · four auto-healing flows",
+    },
+    project:
+      "Pipelines break silently: a source renames a column, a feed arrives stale, a distribution shifts. This engine watches for all of it — schema drift detection with auto-healing flows, statistical anomaly detection, freshness SLA monitoring, and lineage-based impact analysis — and exposes everything through a live deployed dashboard with an interactive lineage graph.",
+    architecture: [
+      "Drift Detector",
+      "Auto-Healing Flows",
+      "Anomaly Engine",
+      "Freshness SLA Monitor",
+      "Lineage Graph",
+      "Live Dashboard",
+    ],
+    keyDecisions: [
+      "Detect schema drift and heal automatically — the pipeline adapts to renames instead of paging a human for them.",
+      "Base anomaly detection on statistics, not thresholds, so subtle distribution shifts surface early.",
+      "Build impact analysis on lineage: when data breaks, know exactly which dashboards are affected.",
+    ],
+    decisions: [
+      "Deploy the dashboard publicly — observability tooling you can't open in a meeting is tooling you don't use.",
+      "Monitor freshness as an SLA, not a heuristic, so staleness is measurable.",
+    ],
+    tradeoffs: [
+      "Automated healing covers safe transforms; ambiguous drift still escalates rather than guessing.",
+    ],
+    outcomes: [
+      "Broken data becomes a detected, diagnosed, and often self-healed event — before stakeholders notice.",
+      "The live dashboard turns data trust from a vibe into a homepage.",
+    ],
+    stack: [
+      "Python",
+      "Data Quality",
+      "Anomaly Detection",
+      "Lineage",
+      "SLA Monitoring",
+      "Dashboard",
+    ],
+  },
+
   "codereview-ai": {
     path: "~/asheth2310/codereview-ai",
     kind: "CI/CD",

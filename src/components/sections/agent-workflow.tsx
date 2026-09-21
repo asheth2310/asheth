@@ -1387,28 +1387,30 @@ export function AgentWorkflow() {
       </div>
 
       {/* Footer: run controls + config chips */}
-      <div className="mt-3 flex flex-col gap-2 lg:flex-row">
+      <div className="mt-3 flex flex-col gap-2 lg:flex-row lg:items-stretch">
         <div className="flex flex-1 flex-col gap-2 sm:flex-row">
           <button
             onClick={run}
             disabled={running}
-            className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-cyan-400 px-6 py-4 font-mono text-sm font-semibold text-zinc-950 transition-colors hover:bg-cyan-300 disabled:opacity-80"
+            className="flex min-h-[56px] flex-1 items-center justify-center gap-2 rounded-lg bg-cyan-400 px-6 text-center font-mono text-sm font-semibold text-zinc-950 transition-colors hover:bg-cyan-300 disabled:opacity-80"
           >
-            <Play size={15} />
-            {running
-              ? "Agent is responding…"
-              : phase === "done"
-                ? "Run again"
-                : "Run selected conversation"}
+            <Play size={15} className="shrink-0" />
+            <span>
+              {running
+                ? "Agent is responding…"
+                : phase === "done"
+                  ? "Run again"
+                  : "Run selected conversation"}
+            </span>
           </button>
           <a
             href={SITE.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 rounded-lg border border-white/15 bg-black/40 px-5 py-4 font-mono text-sm text-zinc-200 transition-colors hover:border-cyan-400/40 hover:text-cyan-300"
+            className="flex min-h-[56px] items-center justify-center gap-2 rounded-lg border border-white/15 bg-black/40 px-5 font-mono text-sm text-zinc-200 transition-colors hover:border-cyan-400/40 hover:text-cyan-300"
           >
             Inspect source
-            <ExternalLink size={14} className="text-zinc-500" />
+            <ExternalLink size={14} className="shrink-0 text-zinc-500" />
           </a>
         </div>
         <div className="grid flex-1 grid-cols-2 gap-2">

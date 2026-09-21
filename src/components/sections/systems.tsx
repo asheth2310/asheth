@@ -1,131 +1,145 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Star, ArrowUpRight } from "lucide-react";
-import { SectionHeading } from "@/components/site/section-heading";
+import { ArrowRight } from "lucide-react";
 import { ProjectModal } from "@/components/ui/project-modal";
 import { SYSTEMS } from "@/lib/content";
 import { PROJECT_DETAILS } from "@/lib/project-details";
 import { SITE } from "@/lib/site";
 
-export function SystemsSection() {
-  const [liveStats, setLiveStats] = useState<Record<string, number>>({});
-  const [selected, setSelected] = useState<string | null>(null);
+const STAT_COLORS = ["text-cyan-300", "text-emerald-300", "text-violet-300"];
 
-  useEffect(() => {
-    let cancelled = false;
-    fetch("/api/github")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((json: { repos?: Record<string, { stars: number }> } | null) => {
-        if (cancelled || !json?.repos) return;
-        const stars: Record<string, number> = {};
-        for (const [name, v] of Object.entries(json.repos)) stars[name] = v.stars;
-        setLiveStats(stars);
-      })
-      .catch(() => {});
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+export function SystemsSection() {
+  const [selected, setSelected] = useState<string | null>(null);
 
   return (
     <section id="systems" className="scroll-mt-20 py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <SectionHeading
-          index="01"
-          label="SYSTEMS"
-          title="Systems that ship."
-          sub="Production-grade builds with real architecture behind them — every source link points at the actual repository, and star counts are pulled live from GitHub."
-        />
+        {/* Header */}
+        <div className="mb-12 md:mb-16">
+          <p className="mb-4 font-mono text-xs tracking-[0.25em] text-cyan-400/90">
+            ● CORE PRODUCTION SYSTEMS
+          </p>
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <h2 className="max-w-xl text-3xl font-bold tracking-tight text-zinc-50 md:text-5xl">
+              Architecture, control and measurable impact.
+            </h2>
+            <p className="max-w-sm text-sm leading-relaxed text-zinc-500">
+              Selected systems across agentic AI, data platforms, document
+              intelligence and stream processing — every claim traceable to the
+              repository behind it.
+            </p>
+          </div>
+        </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
-          {SYSTEMS.map((sys, i) => (
-            <motion.article
-              key={sys.repoName}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.5, delay: (i % 2) * 0.1 }}
-              onClick={() => setSelected(sys.repoName)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setSelected(sys.repoName);
-                }
-              }}
-              role="button"
-              tabIndex={0}
-              aria-haspopup="dialog"
-              aria-label={`${sys.title} — open details`}
-              className="group flex cursor-pointer flex-col rounded-xl border border-white/10 bg-white/[0.02] p-6 transition-colors hover:border-cyan-500/30 hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400/60 md:p-7"
-            >
-              <div className="mb-4 flex items-center justify-between">
-                <span className="font-mono text-xs text-zinc-600">
-                  {sys.index}
-                </span>
-                <span className="flex items-center gap-1.5 rounded-full border border-white/10 px-2.5 py-1 font-mono text-[11px] text-zinc-400">
-                  <Star size={11} className="text-amber-400" />
-                  {liveStats[sys.repoName] ?? "–"}
-                  <span className="text-zinc-600">live</span>
-                </span>
-              </div>
-
-              <h3 className="text-xl font-bold tracking-tight text-zinc-50">
-                {sys.title}
-              </h3>
-              <p className="mt-1 font-mono text-xs text-emerald-400/90">
-                {sys.tagline}
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-400">
-                {sys.description}
-              </p>
-
-              <ul className="mt-4 space-y-2">
-                {sys.highlights.map((h) => (
-                  <li
-                    key={h}
-                    className="flex gap-2 text-[13px] leading-relaxed text-zinc-500"
-                  >
-                    <span className="mt-0.5 shrink-0 font-mono text-emerald-500">
-                      ▸
-                    </span>
-                    {h}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-5 flex flex-wrap gap-1.5">
-                {sys.tags.map((t) => (
-                  <span
-                    key={t}
-                    className="rounded border border-white/10 bg-black/40 px-2 py-0.5 font-mono text-[11px] text-zinc-500"
-                  >
-                    {t}
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {SYSTEMS.map((sys, i) => {
+            const production = sys.badge === "PRODUCTION";
+            const statColor = STAT_COLORS[i % STAT_COLORS.length];
+            const firstSentence = sys.description
+              .split(". ")[0]
+              .replace(/\.$/, "");
+            return (
+              <motion.article
+                key={sys.repoName}
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
+                onClick={() => setSelected(sys.repoName)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setSelected(sys.repoName);
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+                aria-haspopup="dialog"
+                aria-label={`${sys.title} — open case study`}
+                className="group flex cursor-pointer flex-col rounded-xl border border-white/10 bg-white/[0.02] p-5 transition-colors hover:border-cyan-500/30 hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400/60 md:p-6"
+              >
+                {/* Top row: index / category · badge · code icon */}
+                <div className="mb-5 flex items-center justify-between gap-2">
+                  <span className="truncate font-mono text-[10px] font-semibold tracking-[0.18em] text-zinc-400">
+                    <span className="text-zinc-600">{sys.index} / </span>
+                    {sys.category}
                   </span>
-                ))}
-              </div>              <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
-                <span className="inline-flex items-center gap-1.5 font-mono text-sm text-zinc-500 transition-colors group-hover:text-cyan-300">
-                  <span className="text-zinc-600">$</span> view details
-                </span>
-                <a
-                  href={`${SITE.github}/${sys.repoName}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  aria-label={`${sys.title} source on GitHub`}
-                  className="inline-flex items-center gap-1.5 font-mono text-sm text-zinc-300 transition-colors hover:text-emerald-300"
-                >
-                  <span className="text-zinc-600">$</span> open source
-                  <ArrowUpRight
-                    size={14}
-                    className="text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-emerald-400"
-                  />
-                </a>
-              </div>
-            </motion.article>
-          ))
-        }
+                  <span className="flex shrink-0 items-center gap-2">
+                    <span
+                      className={`rounded px-2 py-0.5 font-mono text-[9px] font-semibold tracking-[0.18em] ${
+                        production
+                          ? "border border-emerald-400/50 bg-emerald-950/50 text-emerald-300"
+                          : "border border-zinc-700 text-zinc-400"
+                      }`}
+                    >
+                      {sys.badge}
+                    </span>
+                    <a
+                      href={`${SITE.github}/${sys.repoName}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      aria-label={`${sys.title} source on GitHub`}
+                      className="font-mono text-xs text-zinc-600 transition-colors hover:text-cyan-300"
+                    >
+                      {"</>"}
+                    </a>
+                  </span>
+                </div>
+
+                {/* Title + description */}
+                <h3 className="text-lg font-bold leading-snug tracking-tight text-zinc-50 md:text-xl">
+                  {sys.title}
+                </h3>
+                <p className="mt-2 text-[13px] leading-relaxed text-zinc-500">
+                  {sys.tagline}. {firstSentence}.
+                </p>
+
+                {/* Tags */}
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {sys.tags.slice(0, 5).map((t) => (
+                    <span
+                      key={t}
+                      className="rounded border border-white/10 bg-black/40 px-2 py-0.5 font-mono text-[10px] text-zinc-500"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Bottom row: big stat + open case study */}
+                <div className="mt-auto pt-6">
+                  <div className="flex items-end justify-between gap-3 border-t border-white/10 pt-4">
+                    {sys.stat ? (
+                      <p className="leading-none">
+                        <span
+                          className={`font-mono text-2xl font-bold tracking-tight md:text-3xl ${statColor}`}
+                        >
+                          {sys.stat.value}
+                        </span>
+                        <span className="ml-2 font-mono text-[10px] leading-tight text-zinc-500">
+                          {sys.stat.label}
+                        </span>
+                      </p>
+                    ) : (
+                      <span className="font-mono text-[10px] text-zinc-600">
+                        {"// stats in case study"}
+                      </span>
+                    )}
+                    <span className="flex shrink-0 items-center gap-1.5 font-mono text-[10px] font-semibold tracking-[0.18em] text-zinc-500 transition-colors group-hover:text-cyan-300">
+                      OPEN CASE STUDY
+                      <ArrowRight
+                        size={12}
+                        className="transition-transform group-hover:translate-x-0.5"
+                      />
+                    </span>
+                  </div>
+                </div>
+              </motion.article>
+            );
+          })}
         </div>
 
         <p className="mt-8 text-center font-mono text-xs text-zinc-600">
@@ -134,7 +148,7 @@ export function SystemsSection() {
             href={SITE.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-zinc-400 underline decoration-zinc-700 underline-offset-4 hover:text-emerald-300"
+            className="text-zinc-400 underline decoration-zinc-700 underline-offset-4 hover:text-cyan-300"
           >
             github.com/{SITE.githubUser}
           </a>

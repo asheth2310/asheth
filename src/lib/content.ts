@@ -13,6 +13,10 @@ export interface SystemProject {
   index: string;
   title: string;
   repoName: string;
+  category: string;
+  badge: "PRODUCTION" | "POC";
+  stat: { value: string; label: string } | null;
+  liveUrl?: string;
   tagline: string;
   description: string;
   highlights: string[];
@@ -24,6 +28,9 @@ export const SYSTEMS: SystemProject[] = [
     index: "01",
     title: "Project Sentinel",
     repoName: "project-sentinel",
+    category: "AGENTIC AI · OBSERVABILITY",
+    badge: "POC",
+    stat: { value: "P99 <15MS", label: "telemetry ingestion latency" },
     tagline: "Observability & governance for multi-agent AI deployments",
     description:
       "Enterprise-grade platform that watches fleets of AI agents in real time — tracking tokens, auditing latency, and detecting anomalies before they become runaway costs or recursive prompt loops.",
@@ -38,6 +45,9 @@ export const SYSTEMS: SystemProject[] = [
     index: "02",
     title: "Iodine",
     repoName: "iodine",
+    category: "DEVELOPER TOOLS · AI MENTOR",
+    badge: "POC",
+    stat: { value: "3", label: "AI providers behind one assistant" },
     tagline: "AI codebase mentor — the next-generation IDE",
     description:
       "A mentor for unfamiliar code: guided walkthroughs that open the relevant file, highlight the lines worth studying, and explain what you're seeing — plus an interactive System View graph generated from the code actually on disk.",
@@ -52,6 +62,9 @@ export const SYSTEMS: SystemProject[] = [
     index: "03",
     title: "NatSQL",
     repoName: "NatSQL",
+    category: "DATABASE · NL-TO-SQL",
+    badge: "POC",
+    stat: { value: "0", label: "writes possible — read-only role" },
     tagline: "Natural-language interface for databases",
     description:
       "Ask a MySQL database a question in plain English — NatSQL turns it into a validated, safe SQL query, executes it, and shows the results alongside the SQL it generated, so you never have to trust it blindly.",
@@ -66,6 +79,9 @@ export const SYSTEMS: SystemProject[] = [
     index: "04",
     title: "WildcatIQ",
     repoName: "WildcatIQ",
+    category: "DATA PLATFORM · GOVERNANCE",
+    badge: "POC",
+    stat: { value: "19", label: "automated quality rules" },
     tagline: "Institutional data intelligence, governance & reliability",
     description:
       "Production-style analytics platform showing how fragmented university operational data becomes governed, reliable business intelligence — dimensional warehousing, automated quality validation, lineage, and BI reporting on synthetic data.",
@@ -78,8 +94,46 @@ export const SYSTEMS: SystemProject[] = [
   },
   {
     index: "05",
+    title: "Stream-Table OLAP Engine",
+    repoName: "stream-table-olap-engine",
+    category: "STREAMING · DATA PLANE",
+    badge: "POC",
+    stat: { value: "100K+", label: "events/sec · sub-50ms queries" },
+    tagline: "Real-time stream-table joins at analytics speed",
+    description:
+      "Sub-second stream-table join and OLAP engine: ingests 100K+ events/sec, joins streams with dimension tables on SIMD-accelerated Apache Arrow, and serves sub-50ms analytical queries to an interactive dashboard.",
+    highlights: [
+      "SIMD-accelerated Apache Arrow joins between event streams and dimension tables",
+      "Redpanda-backed ingestion with graceful degraded mode when the broker is absent",
+      "Interactive dashboard serving sub-50ms analytical queries",
+    ],
+    tags: ["Python", "Apache Arrow", "Redpanda", "OLAP", "FastAPI"],
+  },
+  {
+    index: "06",
+    title: "Data Quality & Observability",
+    repoName: "data-quality-observability-engine",
+    category: "DATA QUALITY · OBSERVABILITY",
+    badge: "PRODUCTION",
+    stat: { value: "LIVE", label: "deployed dashboard · auto-healing flows" },
+    liveUrl: "https://dashboard-iota-tan-86.vercel.app",
+    tagline: "Schema drift detection, auto-healing & freshness SLAs",
+    description:
+      "Production-grade data quality and observability engine with a live dashboard: schema drift detection and auto-healing, statistical anomaly detection, freshness SLA monitoring, and lineage-driven impact analysis.",
+    highlights: [
+      "Schema drift detection with automated healing flows",
+      "Statistical anomaly detection and freshness SLA monitoring",
+      "Lineage-based impact analysis with a deployed live dashboard",
+    ],
+    tags: ["Python", "Data Quality", "Lineage", "Anomaly Detection", "Dashboard"],
+  },
+  {
+    index: "07",
     title: "Tax Intake Validator",
     repoName: "tax-intake-validator",
+    category: "AUTOMATION · TRIAGE",
+    badge: "POC",
+    stat: { value: "5", label: "classes of intake incidents detected" },
     tagline: "Automated validation for tax document intake",
     description:
       "Automated validation and processing system for tax documents, increasing throughput and minimizing human error during document ingestion.",
@@ -90,9 +144,12 @@ export const SYSTEMS: SystemProject[] = [
     tags: ["Python", "Automation", "OCR"],
   },
   {
-    index: "06",
+    index: "08",
     title: "CodeReview AI",
     repoName: "codereview-ai",
+    category: "CI/CD · AI REVIEW",
+    badge: "POC",
+    stat: { value: "PRE-MERGE", label: "checks inside the pipeline" },
     tagline: "AI code review inside CI/CD",
     description:
       "AI-powered code review assistant that automates quality checks and linting directly inside CI/CD pipelines.",
@@ -103,9 +160,12 @@ export const SYSTEMS: SystemProject[] = [
     tags: ["JavaScript", "Node.js", "AI", "GitHub API"],
   },
   {
-    index: "07",
+    index: "09",
     title: "Semantic Document Platform",
     repoName: "nlp-document-platform",
+    category: "NLP · EXTRACTION",
+    badge: "POC",
+    stat: { value: "5,000+", label: "unstructured documents processed" },
     tagline: "NLP field extraction at scale",
     description:
       "High-accuracy field-level extraction platform for processing 5,000+ unstructured documents using NLP embeddings.",
@@ -257,7 +317,7 @@ export const PRINCIPLES: { index: string; title: string; body: string }[] = [
 
 export const PROOF_STATS: { value: string; label: string }[] = [
   { value: "41", label: "public repositories" },
-  { value: "07", label: "systems featured" },
+  { value: "09", label: "systems featured" },
   { value: "24", label: "technologies in rotation" },
   { value: "04", label: "engineering roles" },
 ];
@@ -284,6 +344,8 @@ const FALLBACK_ANSWERS: Record<string, string> = {
     "",
     "• Project Sentinel — observability & governance platform for multi-agent AI deployments (token tracking, anomaly detection, circuit breakers).",
     "• Iodine — an AI codebase mentor IDE: guided walkthroughs of unfamiliar repos, Monaco editor, integrated terminal, and System View architecture graphs generated from the workspace.",
+    "• Stream-Table OLAP Engine — 100K+ events/sec stream-table joins on Apache Arrow with sub-50ms analytical queries.",
+    "• Data Quality & Observability Engine — schema drift auto-healing, anomaly detection, freshness SLAs, with a live dashboard.",
     "• NatSQL — ask a MySQL database questions in plain English; generates validated, read-only SQL (local-first, no API keys needed).",
     "• WildcatIQ — institutional data intelligence & governance platform with dimensional warehousing and automated quality checks.",
     "• Tax Intake Validator, CodeReview AI, and an NLP document extraction platform round out the systems section.",
@@ -334,6 +396,8 @@ Aagam Sheth is a Software & AI Systems Engineer pursuing his MS in Information T
 REAL PROJECTS (all at github.com/asheth2310 — do not invent others or star counts)
 - Project Sentinel: enterprise-grade observability & governance platform for multi-agent AI deployments. Real-time token tracking, latency auditing, anomaly detection; FastAPI ingestion → Kafka → Flink anomaly engine → TimescaleDB; Redis circuit breakers; Slack/PagerDuty alerts.
 - Iodine: AI codebase mentor IDE. Mentor Mode gives guided walkthroughs of unfamiliar repositories (opens files, highlights lines, explains in context); System View generates an interactive, editable architecture graph from the workspace and links nodes to source; Monaco editor, integrated terminal (xterm.js/node-pty), Git workflows; multi-provider AI (Anthropic, OpenAI, Gemini) over a React/TypeScript/Vite + Node/Express stack.
+- Stream-Table OLAP Engine: sub-second stream-table join and OLAP engine — 100K+ events/sec ingestion, SIMD-accelerated Apache Arrow joins, sub-50ms analytical queries, interactive dashboard; Redpanda-backed with degraded mode.
+- Data Quality & Observability Engine: production-grade quality engine with a live deployed dashboard — schema drift detection and auto-healing, statistical anomaly detection, freshness SLA monitoring, lineage-based impact analysis.
 - NatSQL: natural-language interface for MySQL. Plain-English questions become validated SQL; fully local MVP (Ollama or deterministic rule-based fallback, no API keys); sqlglot validator rejects writes/injections and clamps LIMIT; executes on a read-only role.
 - WildcatIQ: institutional data intelligence & governance platform — dimensional warehousing, automated data-quality validation, lineage, BI reporting on synthetic university data.
 - Tax Intake Validator: automated validation/processing for tax documents (Python, OCR).
