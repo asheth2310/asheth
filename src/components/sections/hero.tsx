@@ -1,71 +1,135 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { LiquidButton } from "../ui/liquid-glass-button";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { AgentTerminal } from "./agent-terminal";
+import { HERO } from "@/lib/content";
+import { SITE } from "@/lib/site";
+import { Github, Linkedin } from "@/components/icons";
 
 export function HeroSection() {
-    const letters = "AAGAM SHETH".split("");
+  const scrollToSystems = () => {
+    document.getElementById("systems")?.scrollIntoView({ behavior: "smooth" });
+  };
 
-    const scrollToAbout = () => {
-        const el = document.getElementById("about");
-        if (el) window.scrollTo({ top: el.offsetTop, behavior: "smooth" });
-    };
+  return (
+    <section id="hero" className="relative overflow-hidden pt-32 pb-16 md:pt-40 md:pb-24">
+      {/* faint grid backdrop */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_75%_65%_at_50%_35%,black,transparent)]"
+      />
+      <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-[1.05fr_1fr]">
+        <div>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+            </span>
+            <span className="font-mono text-[11px] tracking-[0.2em] text-emerald-300">
+              AVAILABLE FOR NEW OPPORTUNITIES
+            </span>
+          </motion.div>
 
-    return (
-        <section id="hero" className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden z-10">
-            <div className="z-10 text-center flex flex-col items-center px-4 w-full">
-                <div className="flex flex-wrap justify-center mb-4 max-w-[100vw]">
-                    {letters.map((letter, i) => (
-                        <motion.h1
-                            key={i}
-                            className="text-7xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-b from-neutral-50 to-neutral-500 dark:from-neutral-50 dark:to-neutral-500 light:from-black light:to-neutral-600"
-                            initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
-                            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                            transition={{
-                                delay: 0.1 * i,
-                                duration: 0.8,
-                                type: "spring",
-                                stiffness: 100
-                            }}
-                        >
-                            {letter === " " ? '\u00A0' : letter}
-                        </motion.h1>
-                    ))}
-                </div>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.08 }}
+            className="mb-4 font-mono text-xs tracking-[0.3em] text-zinc-500"
+          >
+            {HERO.label}
+          </motion.p>
 
-                <motion.p
-                    className="text-lg md:text-2xl text-neutral-400 dark:text-neutral-400 light:text-neutral-600 font-light tracking-wide max-w-xl px-4"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8, duration: 0.8 }}
-                >
-                    Software & AI Systems Engineer
-                    <br />
-                    <span className="flex items-center justify-center text-sm md:text-lg text-blue-500 mt-2 italic font-medium"><span className="w-2 h-2 inline-block rounded-full bg-blue-500 mr-2 animate-pulse" />Building Systems That Think & Scale</span>
-                </motion.p>
-                
-                <div className="my-8 flex items-center justify-center gap-2">
-                    <span className="relative flex h-3 w-3 items-center justify-center">
-                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-500 opacity-75"></span>
-                        <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500"></span>
-                    </span>
-                    <p className="text-xs md:text-sm text-blue-500 dark:text-blue-400 light:text-blue-600 font-medium">Available for New Projects</p>
-                </div>
-                
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.5, duration: 1 }}
-                >
-                    <LiquidButton 
-                        onClick={scrollToAbout}
-                        className="text-neutral-900 dark:text-white light:text-neutral-900 border-neutral-300 dark:border-white/20 light:border-neutral-300 rounded-full bg-neutral-100 dark:bg-white/5 light:bg-neutral-100/50 shadow-lg" 
-                        size={'xl'}
-                    >
-                        Explore Portfolio
-                    </LiquidButton>
-                </motion.div>
-            </div>
-        </section>
-    );
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="text-5xl font-bold leading-[1.05] tracking-tight text-zinc-50 md:text-7xl"
+          >
+            {HERO.titleA}
+            <br />
+            <span className="bg-gradient-to-r from-emerald-300 to-cyan-400 bg-clip-text text-transparent">
+              {HERO.titleB}
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="mt-6 max-w-xl leading-relaxed text-zinc-400"
+          >
+            {HERO.bio}
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="mt-6 flex flex-wrap gap-2"
+          >
+            {HERO.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1 font-mono text-xs text-zinc-400"
+              >
+                {tag}
+              </span>
+            ))}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.45 }}
+            className="mt-8 flex flex-wrap items-center gap-3"
+          >
+            <button
+              onClick={scrollToSystems}
+              className="group flex items-center gap-2 rounded-lg bg-emerald-500 px-5 py-3 font-mono text-sm font-semibold text-emerald-950 transition-colors hover:bg-emerald-400"
+            >
+              Explore the systems
+              <ArrowDown
+                size={16}
+                className="transition-transform group-hover:translate-y-0.5"
+              />
+            </button>
+            <a
+              href={SITE.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub profile"
+              className="rounded-lg border border-white/10 p-3 text-zinc-400 transition-colors hover:border-emerald-500/40 hover:text-emerald-300"
+            >
+              <Github width={18} height={18} />
+            </a>
+            <a
+              href={SITE.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn profile"
+              className="flex items-center gap-2 rounded-lg border border-white/10 px-4 py-3 font-mono text-sm text-zinc-300 transition-colors hover:border-emerald-500/40 hover:text-emerald-300"
+            >
+              <Linkedin width={16} height={16} />
+              LinkedIn
+              <ArrowUpRight size={14} className="text-zinc-500" />
+            </a>
+          </motion.div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.4 }}
+        >
+          <AgentTerminal />
+        </motion.div>
+      </div>
+    </section>
+  );
 }
