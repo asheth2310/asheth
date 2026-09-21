@@ -182,6 +182,42 @@ export function ExperienceSection() {
             </div>
           </div>
         </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.5, delay: 0.08 }}
+          className="mt-4 flex flex-col gap-4 rounded-xl border border-white/10 bg-white/[0.02] px-6 py-5 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div>
+            <p className="font-mono text-[10px] tracking-[0.25em] text-zinc-500">
+              EDUCATION
+            </p>
+            <p className="mt-1 font-bold text-zinc-50">B.Tech Computer Science</p>
+            <p className="font-mono text-xs text-cyan-400/90">
+              Gujarat Technological University
+            </p>
+          </div>
+          <div className="flex gap-10">
+            <div>
+              <p className="font-mono text-[10px] tracking-[0.25em] text-zinc-500">
+                GRADUATED
+              </p>
+              <p className="mt-1 font-mono text-lg font-bold text-zinc-50">
+                2024
+              </p>
+            </div>
+            <div>
+              <p className="font-mono text-[10px] tracking-[0.25em] text-zinc-500">
+                PERIOD
+              </p>
+              <p className="mt-1 font-mono text-lg font-bold text-zinc-50">
+                Jul 2020 — Jun 2024
+              </p>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
