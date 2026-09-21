@@ -86,6 +86,63 @@ export const PROJECT_DETAILS: Record<string, ProjectDetail> = {
     ],
   },
 
+  iodine: {
+    path: "~/asheth2310/iodine",
+    kind: "DEVELOPER TOOL",
+    period: "AUG 2026",
+    role: "Solo engineer — end-to-end",
+    summary:
+      "An AI codebase mentor: guided walkthroughs of unfamiliar repositories, an integrated dev workspace, and architecture graphs generated from the code on disk.",
+    stat: {
+      value: "3 PROVIDERS",
+      label: "Claude, GPT & Gemini behind one assistant interface (README)",
+    },
+    project:
+      "Opening a new repository can feel like arriving in a city without a map — and AI-generated code makes it worse. Iodine is a workspace-shaped IDE that mentors you through it: Mentor Mode builds a guided walkthrough that opens each relevant file, highlights the lines worth studying, and explains them in context before moving on. Beyond mentoring it ships a full workspace — Monaco editor, integrated terminal, Git workflows, previews — plus System View, an interactive architecture graph generated from the code actually on disk, with nodes linking back to source locations.",
+    architecture: [
+      "Mentor Mode",
+      "Coding Assistant",
+      "Monaco Editor",
+      "Integrated Terminal",
+      "System View",
+      "Git Workflows",
+      "Build Runner",
+    ],
+    keyDecisions: [
+      "Ground every explanation in the workspace itself — context comes from the user's code, not generic examples.",
+      "Build System View from discovered reality: components, pages, APIs, and databases found in the workspace, reconcilable with manual edits.",
+      "Abstract AI providers behind one assistant interface so Claude, GPT, and Gemini are interchangeable.",
+      "Keep mentoring human-in-control: Iodine explains and suggests, the developer acts.",
+    ],
+    decisions: [
+      "Persist system graphs outside the repository (~/.iodine) so generated docs never pollute the user's tree.",
+      "Wire the terminal through node-pty and xterm.js for a real shell, not a simulated one.",
+      "Structure as an npm-workspaces monorepo with Vite HMR and tsx watch for fast iteration.",
+    ],
+    tradeoffs: [
+      "Workspace-grounded answers mean the AI re-reads context often — slower than cached generic replies, far more accurate.",
+      "Generated architecture graphs reflect what the explorer finds; undocumented patterns can be missed until re-generated.",
+    ],
+    outcomes: [
+      "From first question to first confident contribution inside one guided workspace.",
+      "Doubles as a readable reference for building AI-assisted developer tools (Monaco + xterm.js + multi-provider agents).",
+    ],
+    stack: [
+      "React 18",
+      "TypeScript",
+      "Vite",
+      "Monaco Editor",
+      "xterm.js",
+      "node-pty",
+      "Node.js",
+      "Express",
+      "WebSocket",
+      "Claude API",
+      "OpenAI API",
+      "Gemini API",
+    ],
+  },
+
   NatSQL: {
     path: "~/asheth2310/NatSQL",
     kind: "DATABASE",

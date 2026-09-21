@@ -36,6 +36,20 @@ export const SYSTEMS: SystemProject[] = [
   },
   {
     index: "02",
+    title: "Iodine",
+    repoName: "iodine",
+    tagline: "AI codebase mentor — the next-generation IDE",
+    description:
+      "A mentor for unfamiliar code: guided walkthroughs that open the relevant file, highlight the lines worth studying, and explain what you're seeing — plus an interactive System View graph generated from the code actually on disk.",
+    highlights: [
+      "Mentor Mode walks a repository one file at a time, grounded in the real workspace",
+      "System View generates an editable architecture graph whose nodes link back to source locations",
+      "One assistant interface across Anthropic, OpenAI, and Gemini providers",
+    ],
+    tags: ["React 18", "TypeScript", "Monaco", "xterm.js", "Node.js", "Express"],
+  },
+  {
+    index: "03",
     title: "NatSQL",
     repoName: "NatSQL",
     tagline: "Natural-language interface for databases",
@@ -49,7 +63,7 @@ export const SYSTEMS: SystemProject[] = [
     tags: ["Python", "LLM", "sqlglot", "MySQL", "Docker"],
   },
   {
-    index: "03",
+    index: "04",
     title: "WildcatIQ",
     repoName: "WildcatIQ",
     tagline: "Institutional data intelligence, governance & reliability",
@@ -63,7 +77,7 @@ export const SYSTEMS: SystemProject[] = [
     tags: ["Python", "Data Warehousing", "Data Quality", "BI"],
   },
   {
-    index: "04",
+    index: "05",
     title: "Tax Intake Validator",
     repoName: "tax-intake-validator",
     tagline: "Automated validation for tax document intake",
@@ -76,7 +90,7 @@ export const SYSTEMS: SystemProject[] = [
     tags: ["Python", "Automation", "OCR"],
   },
   {
-    index: "05",
+    index: "06",
     title: "CodeReview AI",
     repoName: "codereview-ai",
     tagline: "AI code review inside CI/CD",
@@ -89,7 +103,7 @@ export const SYSTEMS: SystemProject[] = [
     tags: ["JavaScript", "Node.js", "AI", "GitHub API"],
   },
   {
-    index: "06",
+    index: "07",
     title: "Semantic Document Platform",
     repoName: "nlp-document-platform",
     tagline: "NLP field extraction at scale",
@@ -243,7 +257,7 @@ export const PRINCIPLES: { index: string; title: string; body: string }[] = [
 
 export const PROOF_STATS: { value: string; label: string }[] = [
   { value: "41", label: "public repositories" },
-  { value: "06", label: "systems featured" },
+  { value: "07", label: "systems featured" },
   { value: "24", label: "technologies in rotation" },
   { value: "04", label: "engineering roles" },
 ];
@@ -269,6 +283,7 @@ const FALLBACK_ANSWERS: Record<string, string> = {
     "Here's what Aagam has actually shipped (all on github.com/asheth2310):",
     "",
     "• Project Sentinel — observability & governance platform for multi-agent AI deployments (token tracking, anomaly detection, circuit breakers).",
+    "• Iodine — an AI codebase mentor IDE: guided walkthroughs of unfamiliar repos, Monaco editor, integrated terminal, and System View architecture graphs generated from the workspace.",
     "• NatSQL — ask a MySQL database questions in plain English; generates validated, read-only SQL (local-first, no API keys needed).",
     "• WildcatIQ — institutional data intelligence & governance platform with dimensional warehousing and automated quality checks.",
     "• Tax Intake Validator, CodeReview AI, and an NLP document extraction platform round out the systems section.",
@@ -318,6 +333,7 @@ Aagam Sheth is a Software & AI Systems Engineer pursuing his MS in Information T
 
 REAL PROJECTS (all at github.com/asheth2310 — do not invent others or star counts)
 - Project Sentinel: enterprise-grade observability & governance platform for multi-agent AI deployments. Real-time token tracking, latency auditing, anomaly detection; FastAPI ingestion → Kafka → Flink anomaly engine → TimescaleDB; Redis circuit breakers; Slack/PagerDuty alerts.
+- Iodine: AI codebase mentor IDE. Mentor Mode gives guided walkthroughs of unfamiliar repositories (opens files, highlights lines, explains in context); System View generates an interactive, editable architecture graph from the workspace and links nodes to source; Monaco editor, integrated terminal (xterm.js/node-pty), Git workflows; multi-provider AI (Anthropic, OpenAI, Gemini) over a React/TypeScript/Vite + Node/Express stack.
 - NatSQL: natural-language interface for MySQL. Plain-English questions become validated SQL; fully local MVP (Ollama or deterministic rule-based fallback, no API keys); sqlglot validator rejects writes/injections and clamps LIMIT; executes on a read-only role.
 - WildcatIQ: institutional data intelligence & governance platform — dimensional warehousing, automated data-quality validation, lineage, BI reporting on synthetic university data.
 - Tax Intake Validator: automated validation/processing for tax documents (Python, OCR).

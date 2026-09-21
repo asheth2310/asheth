@@ -12,6 +12,7 @@ const SCRIPT: Line[] = [
   { kind: "cmd", text: "./agent-cluster --status" },
   { kind: "ok", text: "sentinel   · token tracking + anomaly detection online" },
   { kind: "ok", text: "natsql     · validator armed — writes rejected by default" },
+  { kind: "ok", text: "iodine     · mentor mode online — grounded in workspace" },
   { kind: "ok", text: "wildcatiq  · quality gates passing · lineage fresh" },
   { kind: "cmd", text: "gh stats asheth2310" },
 ];
