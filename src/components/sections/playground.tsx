@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { SectionHeading } from "@/components/site/section-heading";
 import { AgentConsole } from "./agent-console";
+import { AgentWorkflow } from "./agent-workflow";
 
 export function PlaygroundSection() {
   return (
@@ -26,6 +27,15 @@ export function PlaygroundSection() {
           className="mx-auto max-w-3xl"
         >
           <AgentConsole />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+        >
+          <AgentWorkflow />
         </motion.div>
       </div>
     </section>
