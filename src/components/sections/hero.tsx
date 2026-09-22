@@ -14,11 +14,7 @@ export function HeroSection() {
 
   return (
     <section id="hero" className="relative overflow-hidden pt-32 pb-16 md:pt-40 md:pb-24">
-      {/* faint grid backdrop */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_75%_65%_at_50%_35%,black,transparent)]"
-      />
+      {/* grid now painted page-wide via body::before */}
       <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-[1.05fr_1fr]">
         <div>
           <motion.div

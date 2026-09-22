@@ -127,6 +127,18 @@
     color: var(--ink-hi);
     transition: background-color 0.3s, color 0.3s;
   }
+  /* Page-wide blueprint grid, painted between the page color and content */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
   html {
     @apply font-sans;
   }
@@ -188,6 +200,7 @@ html {
   --ink-soft: #71717a; /* zinc-500 */
   --ink-faint: #52525b; /* zinc-600 */
   --glow-dot: #22d3ee;
+  --grid-line: rgba(255, 255, 255, 0.028);
 }
 
 .light {
@@ -204,6 +217,7 @@ html {
   --ink-soft: #52525b;
   --ink-faint: #71717a;
   --glow-dot: #0891b2;
+  --grid-line: rgba(0, 0, 0, 0.045);
 }
 
 @theme inline {

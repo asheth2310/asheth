@@ -11,7 +11,7 @@ import { ContactSection } from "@/components/sections/contact";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-surface-page font-sans text-ink-hi antialiased selection:bg-emerald-500/30 selection:text-emerald-50">
+    <div className="min-h-screen font-sans text-ink-hi antialiased selection:bg-emerald-500/30 selection:text-emerald-50">
       <Navbar />
       <main>
         <HeroSection />
