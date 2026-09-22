@@ -1066,7 +1066,7 @@ export function AgentWorkflow() {
       </div>
 
       {/* Agent picker */}
-      <div className="rounded-xl border border-line bg-surface-card p-4 md:p-5">
+      <div className="rounded-xl border border-line bg-surface-solid p-4 md:p-5">
         <p className="mb-3 font-mono text-[11px] tracking-[0.2em] text-ink-hi0">
           AGENT_SELECT
         </p>
@@ -1118,7 +1118,7 @@ export function AgentWorkflow() {
       </div>
 
       {/* Scenario input */}
-      <div className="mt-3 rounded-xl border border-line bg-surface-card p-4 md:p-5">
+      <div className="mt-3 rounded-xl border border-line bg-surface-solid p-4 md:p-5">
         <p className="mb-3 font-mono text-[11px] tracking-[0.2em] text-ink-hi0">
           SCENARIO_INPUT
         </p>
