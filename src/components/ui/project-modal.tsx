@@ -79,7 +79,7 @@ export function ProjectModal({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 24, scale: 0.98 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
-          className="my-8 w-full max-w-2xl overflow-hidden rounded-xl border border-line bg-[#0a0d10] shadow-2xl"
+          className="my-8 w-full max-w-2xl overflow-hidden rounded-xl border border-line bg-surface-page shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Chrome bar */}
