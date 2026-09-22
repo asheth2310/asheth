@@ -186,7 +186,7 @@ export interface Experience {
 
 export const EXPERIENCE: Experience[] = [
   {
-    period: "May 2025 — Oct 2025",
+    period: "May 2025 — Aug 2025",
     role: "Software Development Engineer Intern",
     company: "Zummit Infolab",
     points: [
@@ -206,8 +206,8 @@ export const EXPERIENCE: Experience[] = [
     ],
   },
   {
-    period: "Mar 2024 — Aug 2024",
-    role: "Software Development Intern",
+    period: "Aug 2023 — Aug 2024",
+    role: "Software Developer",
     company: "Kintu Designs Pvt. Ltd.",
     points: [
       "Full-stack development (Java, Python, React); built scalable microservices",
@@ -216,8 +216,8 @@ export const EXPERIENCE: Experience[] = [
     ],
   },
   {
-    period: "May 2023 — Jul 2023",
-    role: "Software Engineer Intern",
+    period: "2022 — 2023",
+    role: "Software Engineer",
     company: "Uniqual Itech",
     points: [
       "Developed 17+ reusable React components",
@@ -375,10 +375,10 @@ const FALLBACK_ANSWERS: Record<string, string> = {
   ].join("\n"),
   who: "Aagam Sheth is a Software & AI Systems Engineer pursuing his MS in Information Technology at Arizona State University (2024–2026). He builds intelligent applications where models, agents, and deterministic software work together.",
   experience: [
-    "• SDE Intern, Zummit Infolab (May 2025 — Oct 2025): data pipelines feeding AI workflows, LLM feature integration, full-stack development.",
+    "• SDE Intern, Zummit Infolab (May 2025 — Aug 2025): data pipelines feeding AI workflows, LLM feature integration, full-stack development.",
     "• Academic Tutor, Arizona State University (Aug 2025 — May 2026): tutoring 50+ students in CS, Math, Statistics.",
-    "• Software Development Intern, Kintu Designs (Mar 2024 — Aug 2024): microservices, AI-driven log analysis for CI/CD, ~40% faster incident detection.",
-    "• Software Engineer Intern, Uniqual Itech (May 2023 — Jul 2023): 17+ React components, AI data-transformation pipelines.",
+    "• Software Developer, Kintu Designs (Aug 2023 — Aug 2024): microservices, AI-driven log analysis for CI/CD, ~40% faster incident detection.",
+    "• Software Engineer, Uniqual Itech (2022 — 2023): 17+ React components, AI data-transformation pipelines.",
     "• Undergraduate Research Assistant, Gujarat Technological University (2021 — 2022): cleaned 50K+ multilingual records, compared classifiers with scikit-learn.",
   ].join("\n"),
   hire: "Hire Aagam if you need someone who ships AI systems, not demos: agent observability, safe NL-to-SQL, data governance platforms — plus full-stack and distributed-systems fundamentals. Use the contact form below to start the conversation.",
@@ -418,10 +418,10 @@ REAL PROJECTS (all at github.com/asheth2310 — do not invent others or star cou
 - Semantic Document Platform (nlp-document-platform): NLP field-level extraction over 5,000+ unstructured documents.
 
 EXPERIENCE
-- SDE Intern, Zummit Infolab (May 2025–Oct 2025): engineered data pipelines into model-ready datasets, integrated LLM-driven AI features into production apps, developed full-stack React/Python functionality.
+- SDE Intern, Zummit Infolab (May 2025–Aug 2025): engineered data pipelines into model-ready datasets, integrated LLM-driven AI features into production apps, developed full-stack React/Python functionality.
 - Academic Tutor, ASU (Aug 2025–May 2026): 50+ students, CS/Math/Statistics.
-- Software Development Intern, Kintu Designs (Mar 2024–Aug 2024): microservices, AI-driven log analysis for CI/CD, ~40% faster incident detection.
-- Software Engineer Intern, Uniqual Itech (May–Jul 2023): 17+ React components, AI data-transformation pipelines.
+- Software Developer, Kintu Designs (Aug 2023–Aug 2024): microservices, AI-driven log analysis for CI/CD, ~40% faster incident detection.
+- Software Engineer, Uniqual Itech (2022–2023): 17+ React components, AI data-transformation pipelines.
 - Undergraduate Research Assistant, GTU (2021–2022): 50K+ multilingual records cleaned; classifier comparison with scikit-learn.
 
 SKILLS
