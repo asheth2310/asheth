@@ -115,7 +115,7 @@ export function ExperienceSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col rounded-xl border border-line bg-surface-card p-8"
+            className="flex flex-col rounded-xl border border-line bg-surface-solid p-8"
           >
             <Zap className="h-6 w-6 text-cyan-400" fill="currentColor" />
             <h3 className="mt-8 text-2xl font-bold leading-snug text-ink-hi">
@@ -150,7 +150,7 @@ export function ExperienceSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.5 }}
-          className="mt-6 flex flex-col gap-4 rounded-xl border border-line bg-surface-card px-6 py-5 sm:flex-row sm:items-center sm:justify-between"
+          className="mt-6 flex flex-col gap-4 rounded-xl border border-line bg-surface-solid px-6 py-5 sm:flex-row sm:items-center sm:justify-between"
         >
           <div>
             <p className="font-mono text-[10px] tracking-[0.25em] text-ink-hi0">
@@ -188,7 +188,7 @@ export function ExperienceSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.5, delay: 0.08 }}
-          className="mt-4 flex flex-col gap-4 rounded-xl border border-line bg-surface-card px-6 py-5 sm:flex-row sm:items-center sm:justify-between"
+          className="mt-4 flex flex-col gap-4 rounded-xl border border-line bg-surface-solid px-6 py-5 sm:flex-row sm:items-center sm:justify-between"
         >
           <div>
             <p className="font-mono text-[10px] tracking-[0.25em] text-ink-hi0">
