@@ -192,6 +192,7 @@ html {
   --surface-raised: rgba(255, 255, 255, 0.03);
   --surface-well: rgba(0, 0, 0, 0.4);
   --surface-deep: rgba(0, 0, 0, 0.6);
+  --surface-solid: #060809;
   --line: rgba(255, 255, 255, 0.1);
   --line-soft: rgba(255, 255, 255, 0.05);
   --ink-hi: #f4f4f5;   /* zinc-100 */
@@ -209,6 +210,7 @@ html {
   --surface-raised: rgba(0, 0, 0, 0.03);
   --surface-well: rgba(0, 0, 0, 0.04);
   --surface-deep: rgba(255, 255, 255, 0.75);
+  --surface-solid: #f6f7f8;
   --line: rgba(0, 0, 0, 0.12);
   --line-soft: rgba(0, 0, 0, 0.06);
   --ink-hi: #18181b;
@@ -226,6 +228,7 @@ html {
   --color-surface-raised: var(--surface-raised);
   --color-surface-well: var(--surface-well);
   --color-surface-deep: var(--surface-deep);
+  --color-surface-solid: var(--surface-solid);
   --color-line: var(--line);
   --color-line-soft: var(--line-soft);
   --color-ink-hi: var(--ink-hi);

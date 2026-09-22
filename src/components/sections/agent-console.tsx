@@ -76,7 +76,7 @@ export function AgentConsole() {
   };
 
   return (
-    <div className="overflow-hidden rounded-xl border border-line bg-surface-deep shadow-2xl">
+    <div className="overflow-hidden rounded-xl border border-line bg-surface-solid shadow-2xl">
       <div className="flex items-center gap-2 border-b border-line bg-surface-raised px-4 py-3">
         <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
         <span className="h-3 w-3 rounded-full bg-[#febc2e]" />

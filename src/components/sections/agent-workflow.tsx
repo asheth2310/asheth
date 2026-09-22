@@ -1185,7 +1185,7 @@ export function AgentWorkflow() {
       </div>
 
       {/* Conversation + trace */}
-      <div className="mt-3 grid overflow-hidden rounded-xl border border-line lg:grid-cols-2">
+      <div className="mt-3 grid overflow-hidden rounded-xl border border-line bg-surface-solid lg:grid-cols-2">
         {/* Left: conversation */}
         <div className="border-b border-line lg:border-b-0 lg:border-r">
           <div className="flex items-center gap-2 border-b border-line bg-surface-raised px-4 py-3">
