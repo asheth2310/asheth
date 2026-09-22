@@ -13,10 +13,7 @@ export function Footer() {
             <span className="text-ink">{SITE.handle}</span>
             <span className="animate-pulse text-emerald-400">▊</span>
           </p>
-          <p className="mt-1">
-            © 2026 {SITE.name} · built with next.js ·{" "}
-            <span className="text-ink-faint">v2.0 // terminal edition</span>
-          </p>
+          <p className="mt-1">© 2026 {SITE.name}</p>
         </div>
 
         <div className="flex items-center gap-2">
